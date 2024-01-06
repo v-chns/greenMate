@@ -1,6 +1,5 @@
-# greenmate
-
-GreenMate
+# GreenMate
+A home gardening app that utilizes artificial intelligence (AI) to raise awareness towards gardening and air pollution.
 
 ## Getting Started
 
