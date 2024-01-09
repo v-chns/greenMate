@@ -5,8 +5,11 @@ import 'package:greenmate/features/screens/EcoGuide.dart';
 import 'package:greenmate/features/screens/MyPlants.dart';
 import 'package:greenmate/features/screens/Profile.dart';
 import 'package:greenmate/features/screens/Tutorial.dart';
+import 'package:get/get.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -29,27 +32,27 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageStorage(
-        child: currentScreen,
         bucket: bucket,
+        child: currentScreen,
       ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        shape: CircleBorder(
+        shape: const CircleBorder(
           side: BorderSide(color: Colors.white, width: 3.0, style: BorderStyle.solid)
         ),
-        onPressed: (){}, // ini redirect ke kamera
+        onPressed: () => Get.toNamed('/tutorial'), // ini redirect ke kamera
         backgroundColor: Colors.lightGreen[100],
+        elevation: 0,
         child: SvgPicture.asset('assets/icons/Camera_icon.svg',
         width: 27,
         height: 27,
         ),
-        elevation: 0,
       ),
 
       bottomNavigationBar: BottomAppBar(
         notchMargin: 5.0,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         color: Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,7 +79,7 @@ class _HomeState extends State<Home> {
                   Text(
                     "Home",
                     style: TextStyle(color: currentTab == 0 ? Colors.green[800] : Colors.grey ,
-                    fontSize: 12),
+                    fontSize: 12, fontWeight: FontWeight.w500),
                   )
                 ],
               ),
@@ -85,7 +88,7 @@ class _HomeState extends State<Home> {
             // MyPlants
             MaterialButton(
               minWidth: 50,
-              padding: EdgeInsets.only(right: 3.0),
+              padding: const EdgeInsets.only(right: 3.0),
               onPressed: (){
                 setState(() {
                   currentScreen = MyPlants();
@@ -102,7 +105,7 @@ class _HomeState extends State<Home> {
                   ),
                   Text(
                     "MyPlants",
-                    style: TextStyle(color: currentTab == 1 ? Colors.green[800] : Colors.grey , fontSize: 12),
+                    style: TextStyle(color: currentTab == 1 ? Colors.green[800] : Colors.grey , fontSize: 12, fontWeight: FontWeight.w500),
                   )
                 ],
               ),
@@ -110,7 +113,7 @@ class _HomeState extends State<Home> {
             // EcoGuide
             MaterialButton(
               minWidth: 50,
-              padding: EdgeInsets.only(left: 3.0),
+              padding: const EdgeInsets.only(left: 3.0),
               onPressed: (){
                 setState(() {
                   currentScreen = EcoGuide();
@@ -127,7 +130,7 @@ class _HomeState extends State<Home> {
                   ),
                   Text(
                     "EcoGuide",
-                    style: TextStyle(color: currentTab == 2 ? Colors.green[800] : Colors.grey, fontSize: 12),
+                    style: TextStyle(color: currentTab == 2 ? Colors.green[800] : Colors.grey, fontSize: 12, fontWeight: FontWeight.w500),
                   )
                 ],
               ),
@@ -152,7 +155,7 @@ class _HomeState extends State<Home> {
                   ),
                   Text(
                     "Profile",
-                    style: TextStyle(color: currentTab == 3 ? Colors.green[800] : Colors.grey, fontSize: 12),
+                    style: TextStyle(color: currentTab == 3 ? Colors.green[800] : Colors.grey, fontSize: 12, fontWeight: FontWeight.w500),
                   )
                 ],
               ),
