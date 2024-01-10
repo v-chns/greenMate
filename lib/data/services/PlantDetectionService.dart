@@ -10,11 +10,14 @@ class PlantDetectionService {
 
   static Future<String> detectPlant(String imagePath) async {
     try {
-      final Uri uri = Uri.parse('$_baseUrl/images/classify/plants');
+      final Uri uri = Uri.parse(_baseUrl + 'images/classify/plant');
 
       List<int> imageBytes = await File(imagePath).readAsBytes();
 
       var request = http.MultipartRequest('POST', uri);
+
+      print("request:");
+      print(request);
 
       request.files.add(
         http.MultipartFile.fromBytes(
@@ -24,7 +27,7 @@ class PlantDetectionService {
         ),
       );
 
-      request.headers['Content-Type'] = 'multipart/form-data';
+      //request.headers['Content-Type'] = 'multipart/form-data';
       request.headers['Authorization'] = _token;
 
       final response = await request.send();
@@ -43,10 +46,12 @@ class PlantDetectionService {
           return 'Plant not found in the image.';
         }
       } else {
-        return 'Error: ${response.reasonPhrase}';
+        print('Error ${response.statusCode}: ${response.reasonPhrase}');
+        print('Response headers: ${response.headers}');
+        return 'Error 1: ${response.reasonPhrase}';
       }
     } catch (error) {
-      return 'Error: $error';
+      return 'Error 2: $error';
     }
   }
 }
