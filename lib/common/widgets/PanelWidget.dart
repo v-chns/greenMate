@@ -17,12 +17,6 @@ class _PanelWidgetState extends State<PanelWidget>{
 
   String resultText = '';
 
-  void updateResultText(String newText) {
-    setState(() {
-      resultText = newText;
-    });
-  }
-
   final List<Map<String, String>> plantData = [
     {
       'name': 'Plant 1',
@@ -58,12 +52,12 @@ class _PanelWidgetState extends State<PanelWidget>{
           ),
           // dahlah ini jadiin space aja wkwk karena jadinya bagus
           Padding(
-            padding: resultText.isEmpty ? EdgeInsets.zero : EdgeInsets.all(20.0),
-            child: Text(resultText, style: Theme.of(context).textTheme.headlineMedium,), // Display the result text
+            padding: resultText.isEmpty ? EdgeInsets.zero : EdgeInsets.all(5.0),
+            child: Text(resultText, style: Theme.of(context).textTheme.bodySmall,), // Display the result text
           ),
           Container(
             child: TextField(
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.titleMedium,
               decoration: InputDecoration(
                 hintText: 'Search Plant',
                 prefixIcon: Icon(Icons.search, size: 24.0, color: Colors.black54),
@@ -83,12 +77,11 @@ class _PanelWidgetState extends State<PanelWidget>{
             Text("Plant Picks for You", style: Theme.of(context).textTheme.headlineSmall,),
           ),
           // List of plants
-          Padding(
-            padding: EdgeInsets.zero,
+          Expanded(
             child: GridView.count(
               crossAxisCount: 2,
-              crossAxisSpacing: 15,
-              mainAxisSpacing: 15,
+              crossAxisSpacing: 6,
+              mainAxisSpacing: 10,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
@@ -116,8 +109,8 @@ Widget _buildPlantContainer(String plantName, String plantClassName, String imag
     child: Column(
       children: [
         Container(
-          height: 116.0,
-          width: 170,
+          height: 105,
+          width: 165,
           decoration: BoxDecoration(
             color: Colors.grey,
             borderRadius: BorderRadius.circular(8.0),
@@ -127,7 +120,7 @@ Widget _buildPlantContainer(String plantName, String plantClassName, String imag
             ),
           ),
         ),
-        SizedBox(height: 5.0),
+        SizedBox(height: 1),
         Container(
           width: 170,
           child: Column(
@@ -141,7 +134,6 @@ Widget _buildPlantContainer(String plantName, String plantClassName, String imag
                   textAlign: TextAlign.left,
                 ),
               ),
-              SizedBox(height: 1.0),
               Container(
                 child: Text(
                   plantClassName,

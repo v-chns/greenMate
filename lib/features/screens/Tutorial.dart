@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:greenmate/common/widgets/PanelWidget.dart';
 import 'package:greenmate/data/services/PlantDetectionService.dart';
+import 'package:greenmate/features/screens/PlantResult.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:greenmate/utils/helpers/MediaSizeClipper.dart';
@@ -39,14 +40,17 @@ class _TutorialState extends State<Tutorial> {
     final XFile picture = await _cameraController.takePicture();
     final path = picture.path;
 
-    // Panggil API + show result
-    try{
-      final result = await PlantDetectionService.detectPlant(path);
-      print("Hasil" + result);
-      showResult(context, result);
-    }catch (e){
-      print(e);
-    }
+    // Pindah ke page lain panggilnya API disana aja
+    Navigator.push(
+        context, MaterialPageRoute(builder: (builder) => PlantResult(path: path,)));
+    
+    // try{
+    //   final result = await PlantDetectionService.detectPlant(path);
+    //   print("Hasil" + result);
+    //   showResult(context, result);
+    // }catch (e){
+    //   print(e);
+    // }
 
   }
 
@@ -64,15 +68,21 @@ class _TutorialState extends State<Tutorial> {
 
     if (pickedFile != null) {
       final path = pickedFile.path;
-      // Call API + show result
-      try {
-        final result = await PlantDetectionService.detectPlant(path);
-        print("Hasil" + result);
-        showResult(context, result);
 
-      } catch (e) {
-        print(e);
-      }
+      // Pindah ke page lain
+      Navigator.push(
+          context, MaterialPageRoute(builder: (builder) => PlantResult(path: path,)));
+
+      // // Call API + show result
+      // try {
+        final result = await PlantDetectionService.detectPlant(path);
+        print("ini hasil dari seblumnya");
+      //   print("Hasil" + result);
+      //   showResult(context, result);
+      //
+      // } catch (e) {
+      //   print(e);
+      // }
     }
   }
 
