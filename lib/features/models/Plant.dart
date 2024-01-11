@@ -25,7 +25,19 @@ class Plant {
       maintenance: List<Maintenance>.from(json['data']['maintenance'].map((maintenanceJson) => Maintenance.fromJson(maintenanceJson))),
     );
   }
+
+  factory Plant.fromJson1(Map<String, dynamic> json) {
+    return Plant(
+      plantClass: json['class'],
+      name: json['name'],
+      latinName: json['latinName'],
+      family: json['family'],
+      kingdom: json['kingdom'],
+      maintenance: List<Maintenance>.from(json['maintenance'].map((maintenanceJson) => Maintenance.fromJson(maintenanceJson))),
+    );
+  }
 }
+
 
 class Maintenance {
   final String type;

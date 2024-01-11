@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:greenmate/common/widgets/PlantsGridView.dart';
+import 'package:greenmate/data/services/GetPlantsList.dart';
+import 'package:greenmate/features/models/Plant.dart';
 
 class PanelWidget extends StatefulWidget {
   final ScrollController controller;
@@ -17,26 +20,11 @@ class _PanelWidgetState extends State<PanelWidget>{
 
   String resultText = '';
 
-  final List<Map<String, String>> plantData = [
-    {
-      'name': 'Plant 1',
-      'class': 'Class A',
-      'imagePath': 'assets/images/dummyplant.jpg',
-    },
-    {
-      'name': 'Plant 2',
-      'class': 'Class B',
-      'imagePath': 'assets/images/dummyplant.jpg',
-    },
-    // Add more plant data as needed
-  ];
-
-
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-        padding: EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0, bottom: 20.0),
+        padding: EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0, bottom: 15.0),
         controller: widget.controller,
         children:  [
           // Drag handler (garis abu)
@@ -77,75 +65,12 @@ class _PanelWidgetState extends State<PanelWidget>{
             Text("Plant Picks for You", style: Theme.of(context).textTheme.headlineSmall,),
           ),
           // List of plants
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              crossAxisSpacing: 6,
-              mainAxisSpacing: 10,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                _buildPlantContainer("coba coba", "cobalicus ancu", "assets/images/dummyplant.jpg", context),
-                _buildPlantContainer("coba coba", "cobalicus ancu", "assets/images/dummyplant.jpg", context),
-                _buildPlantContainer("coba coba", "cobalicus ancu", "assets/images/dummyplant.jpg", context),
-                _buildPlantContainer("coba coba", "cobalicus ancu", "assets/images/dummyplant.jpg", context),
-                _buildPlantContainer("coba coba", "cobalicus ancu", "assets/images/dummyplant.jpg", context),
-                _buildPlantContainer("coba coba", "cobalicus ancu", "assets/images/dummyplant.jpg", context),
-                _buildPlantContainer("coba coba", "cobalicus ancu", "assets/images/dummyplant.jpg", context),
-                _buildPlantContainer("coba coba", "cobalicus ancu", "assets/images/dummyplant.jpg", context),
-                _buildPlantContainer("coba coba", "cobalicus ancu", "assets/images/dummyplant.jpg", context),
-                _buildPlantContainer("coba coba", "cobalicus ancu", "assets/images/dummyplant.jpg", context),
-              ],
-            ),
+          Container(
+            height: MediaQuery.of(context).size.height * 30,
+            child: PlantsGridView(),
           ),
         ],
       );
   }
 
-}
-
-Widget _buildPlantContainer(String plantName, String plantClassName, String imagePath, BuildContext context) {
-  return Container(
-    child: Column(
-      children: [
-        Container(
-          height: 105,
-          width: 165,
-          decoration: BoxDecoration(
-            color: Colors.grey,
-            borderRadius: BorderRadius.circular(8.0),
-            image: DecorationImage(
-              image: AssetImage(imagePath),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        SizedBox(height: 1),
-        Container(
-          width: 170,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                child: Text(
-                  plantName,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              Container(
-                child: Text(
-                  plantClassName,
-                  style: Theme.of(context).textTheme.bodySmall,
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ],
-          ),
-        ),
-
-      ],
-    ),
-  );
 }

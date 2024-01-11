@@ -21,6 +21,7 @@ class _PlantDetailsState extends State<PlantDetails> {
   void initState() {
     super.initState();
     currentScreen = PlantOverview(result: widget.result);
+    print(widget.result.maintenance);
   }
 
   @override
@@ -102,21 +103,32 @@ class _PlantDetailsState extends State<PlantDetails> {
                 children: [
                   const TabBar(
                     tabs: [
-                      Tab(text: 'Overview'),
-                      Tab(text: 'Tutorial'),
+                      Tab(
+                        child: Text(
+                          'Overview',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      Tab(
+                        child: Text(
+                          'Tutorial',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
                     ],
                     indicatorColor: Colors.amber,
+                    indicatorWeight: 5.0,
+                    indicatorSize: TabBarIndicatorSize.label,
                   ),
                   Expanded(
-                    child: SingleChildScrollView(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height, // Adjust the height as needed
-                        child: TabBarView(
-                          children: [
-                            PlantOverview(result: widget.result),
-                            PlantTutorial(result: widget.result),
-                          ],
-                        ),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height - 0, // Adjust someValue
+                      padding: EdgeInsets.all(20.0),
+                      child: TabBarView(
+                        children: [
+                          PlantOverview(result: widget.result),
+                          PlantTutorial(result: widget.result),
+                        ],
                       ),
                     ),
                   ),
@@ -144,7 +156,7 @@ class _PlantDetailsState extends State<PlantDetails> {
               ),
               child: Center(
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 80)),
+                  style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 85)),
                   onPressed: () {
                     // Handle button press
                   },
