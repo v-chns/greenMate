@@ -39,7 +39,7 @@ class _TutorialState extends State<Tutorial> {
     //final path = join((await getTemporaryDirectory()).path, "${DateTime.now()}.png");
     final XFile picture = await _cameraController.takePicture();
     final path = picture.path;
-
+    _cameraController.setFlashMode(FlashMode.off);
     // Pindah ke page lain panggilnya API disana aja
     Navigator.push(
         context, MaterialPageRoute(builder: (builder) => PlantResult(path: path,)));
@@ -57,10 +57,6 @@ class _TutorialState extends State<Tutorial> {
   void dispose(){
     super.dispose();
     _cameraController.dispose();
-  }
-
-  void showResult(BuildContext context, String result) {
-    print("babi");
   }
 
   Future<void> chooseImageFromAlbum(BuildContext context) async {
