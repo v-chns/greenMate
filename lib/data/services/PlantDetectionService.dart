@@ -10,7 +10,7 @@ class PlantDetectionService {
 
   static Future<String> detectPlant(String imagePath) async {
     try {
-      final Uri uri = Uri.parse('$_baseUrl/images/classify/plants');
+      final Uri uri = Uri.parse(_baseUrl + "images/classify/plant");
 
       List<int> imageBytes = await File(imagePath).readAsBytes();
 
@@ -24,15 +24,14 @@ class PlantDetectionService {
         ),
       );
 
-      request.headers['Content-Type'] = 'multipart/form-data';
+      // request.headers['Content-Type'] = 'multipart/form-data';
       request.headers['Authorization'] = _token;
 
-      final response = await request.send();
-
+      final response = await request.send();    
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonResponse = json.decode(await response.stream.bytesToString());
-
+        
         if (jsonResponse['data'] != null) {
           Plant newPlant = Plant.fromJson(jsonResponse);
           String plantName = newPlant.name;
