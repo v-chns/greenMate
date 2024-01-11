@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:get/get.dart';
 import 'package:greenmate/common/widgets/PanelWidget.dart';
 import 'package:greenmate/data/services/PlantDetectionService.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:greenmate/features/screens/PlantResult.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:greenmate/utils/helpers/MediaSizeClipper.dart';
 
 
 late List<CameraDescription> cameras;
@@ -40,15 +39,18 @@ class _TutorialState extends State<Tutorial> {
     //final path = join((await getTemporaryDirectory()).path, "${DateTime.now()}.png");
     final XFile picture = await _cameraController.takePicture();
     final path = picture.path;
-
-    // Panggil API + show result
-    try{
-      final result = await PlantDetectionService.detectPlant(path);
-      print("Hasil" + result);
-      showResult(context, result);
-    }catch (e){
-      print(e);
-    }
+    _cameraController.setFlashMode(FlashMode.off);
+    // Pindah ke page lain panggilnya API disana aja
+    Navigator.push(
+        context, MaterialPageRoute(builder: (builder) => PlantResult(path: path,)));
+    
+    // try{
+    //   final result = await PlantDetectionService.detectPlant(path);
+    //   print("Hasil" + result);
+    //   showResult(context, result);
+    // }catch (e){
+    //   print(e);
+    // }
 
   }
 
@@ -57,24 +59,26 @@ class _TutorialState extends State<Tutorial> {
     _cameraController.dispose();
   }
 
-  void showResult(BuildContext context, String result) {
-
-  }
-
   Future<void> chooseImageFromAlbum(BuildContext context) async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       final path = pickedFile.path;
-      // Call API + show result
-      try {
-        final result = await PlantDetectionService.detectPlant(path);
-        print("Hasil" + result);
-        showResult(context, result);
 
-      } catch (e) {
-        print(e);
-      }
+      // Pindah ke page lain
+      Navigator.push(
+          context, MaterialPageRoute(builder: (builder) => PlantResult(path: path,)));
+
+      // // Call API + show result
+      // try {
+        final result = await PlantDetectionService.detectPlant(path);
+        print("ini hasil dari seblumnya");
+      //   print("Hasil" + result);
+      //   showResult(context, result);
+      //
+      // } catch (e) {
+      //   print(e);
+      // }
     }
   }
 
@@ -97,7 +101,17 @@ class _TutorialState extends State<Tutorial> {
             FutureBuilder(future: cameraValue, builder: (context, snapshot){
               if(snapshot.connectionState == ConnectionState.done){
 
-                return CameraPreview(_cameraController);
+                final mediaSize = MediaQuery.of(context).size;
+                final scale = 1 / (_cameraController.value.aspectRatio * mediaSize.aspectRatio);
+
+                return ClipRect(
+                  clipper: MediaSizeClipper(mediaSize),
+                  child: Transform.scale(
+                    scale: scale,
+                    alignment: Alignment.topCenter,
+                    child: CameraPreview(_cameraController),
+                  ),
+                );
               } else {
                 return const Center(child: CircularProgressIndicator());
               }
@@ -105,7 +119,7 @@ class _TutorialState extends State<Tutorial> {
 
             // Custom shutter button
             Positioned(
-              bottom: 140.0,
+              bottom: MediaQuery.of(context).size.height * 0.2,
               left: MediaQuery.of(context).size.width / 2 - 45.0,
               child: InkWell(
                 child: const Icon(Icons.panorama_fish_eye_outlined, color: Colors.white, size: 90.0),
@@ -129,8 +143,8 @@ class _TutorialState extends State<Tutorial> {
 
             // Icon to open album
             Positioned(
-              bottom: 160.0,
-              right: 20.0,
+              bottom: MediaQuery.of(context).size.height * 0.22,
+              right: 30.0,
               child: IconButton(
                 icon: const Icon(Icons.photo_library, color: Colors.white, size: 30.0),
                 onPressed: () {

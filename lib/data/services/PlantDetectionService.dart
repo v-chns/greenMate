@@ -8,13 +8,16 @@ class PlantDetectionService {
   static const String _baseUrl = APIConstants.baseURL;
   static const String _token = APIConstants.authKey;
 
-  static Future<String> detectPlant(String imagePath) async {
+  static Future<Plant?> detectPlant(String imagePath) async {
     try {
-      final Uri uri = Uri.parse(_baseUrl + "images/classify/plant");
+      final Uri uri = Uri.parse(_baseUrl + 'images/classify/plant');
 
       List<int> imageBytes = await File(imagePath).readAsBytes();
 
       var request = http.MultipartRequest('POST', uri);
+
+      print("request:");
+      print(request);
 
       request.files.add(
         http.MultipartFile.fromBytes(
@@ -24,28 +27,28 @@ class PlantDetectionService {
         ),
       );
 
-      // request.headers['Content-Type'] = 'multipart/form-data';
+      //request.headers['Content-Type'] = 'multipart/form-data';
       request.headers['Authorization'] = _token;
 
-      final response = await request.send();    
+      final response = await request.send();
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonResponse = json.decode(await response.stream.bytesToString());
         
         if (jsonResponse['data'] != null) {
           Plant newPlant = Plant.fromJson(jsonResponse);
-          String plantName = newPlant.name;
-          String plantClass = newPlant.plantClass;
-
-          return 'Detected plant: $plantClass - $plantName';
+          print('Hasil :  ${newPlant.name}');
+          return newPlant;
         } else {
-          return 'Plant not found in the image.';
+          return null;
         }
       } else {
-        return 'Error: ${response.reasonPhrase}';
+        print('Error ${response.statusCode}: ${response.reasonPhrase}');
+        print('Response headers: ${response.headers}');
+        return null;
       }
     } catch (error) {
-      return 'Error: $error';
+      return null;
     }
   }
 }
