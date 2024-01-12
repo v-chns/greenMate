@@ -1,5 +1,5 @@
 # GreenMate
-A home gardening app that utilizes artificial intelligence (AI) to raise awareness towards gardening and air pollution.
+A home gardening app that utilizes artificial intelligence (AI) to raise awareness towards gardening and air pollution. Made by GoodWaffle for GDSC Indonesia's 2024 HackFest.
 
 ### Main Features
 
