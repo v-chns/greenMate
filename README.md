@@ -2,7 +2,6 @@
 A home gardening app that utilizes artificial intelligence (AI) to raise awareness towards gardening and air pollution.
 
 ### Main Features
-### Main Features
 
 - **Detect Plants:**
   Users can detect the plants they want to plant using their phones' camera, or pick an image from their albums. Users can also search for the plant they want manually.
