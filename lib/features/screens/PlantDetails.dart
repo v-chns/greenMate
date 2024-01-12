@@ -123,7 +123,7 @@ class _PlantDetailsState extends State<PlantDetails> {
                   Expanded(
                     child: Container(
                       height: MediaQuery.of(context).size.height - 0, // Adjust someValue
-                      padding: EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 0),
                       child: TabBarView(
                         children: [
                           PlantOverview(result: widget.result),
@@ -156,7 +156,7 @@ class _PlantDetailsState extends State<PlantDetails> {
               ),
               child: Center(
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 85)),
+                  style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 100)),
                   onPressed: () {
                     // Handle button press
                   },

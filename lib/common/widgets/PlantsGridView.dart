@@ -79,7 +79,7 @@ Widget _buildPlantContainer(Plant plant, String imagePath, BuildContext context)
             width: 140,
             decoration: BoxDecoration(
               color: Colors.grey,
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(3.0),
               image: DecorationImage(
                 image: AssetImage(imagePath),
                 fit: BoxFit.cover,

@@ -6,20 +6,20 @@ class greenMateTheme {
   greenMateTheme._();
 
   static ThemeData lightTheme = ThemeData(
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
+    colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF128750)),
     useMaterial3: true,
     brightness: Brightness.light,
-    primaryColor: Colors.green[800],
+    primaryColor: Color(0xFF128750),
     scaffoldBackgroundColor: Colors.white,
     textTheme: greenmateTextTheme.lightTextTheme,
     elevatedButtonTheme: greenMateElevatedButtonTheme.lightElevatedButtonTheme
   );
 
   static ThemeData darkTheme = ThemeData(
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
+    colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF128750)),
     useMaterial3: true,
     //brightness: Brightness.dark,
-    primaryColor: Colors.green[800],
+    primaryColor: Color(0xFF128750),
     scaffoldBackgroundColor: Colors.black87,
     textTheme: greenmateTextTheme.darkTextTheme, elevatedButtonTheme: greenMateElevatedButtonTheme.darkElevatedButtonTheme
 

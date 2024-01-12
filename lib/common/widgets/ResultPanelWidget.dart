@@ -165,12 +165,14 @@ class PlantInfoContainer extends StatelessWidget {
         ),
         padding: EdgeInsets.all(16.0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              child: Image.asset('assets/images/dummyplant.jpg', height: 120.0, width: 100.0, fit: BoxFit.cover),
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset('assets/images/dummyplant.jpg', height: 120.0, width: 130.0, fit: BoxFit.cover),
             ),
-            SizedBox(width: 8.0),
+            SizedBox(width: 10.0),
             Align(
               alignment: Alignment.topLeft,
               child: Column(
@@ -185,19 +187,36 @@ class PlantInfoContainer extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.thumb_up, color: Colors.blue, size: 15.0),
+                        Icon(Icons.thumb_up, color: Colors.blue, size: 14.0),
                         SizedBox(width: 3.5),
                         Text(
                           'Match Found!',
-                          style: Theme.of(context).textTheme.labelLarge?.copyWith(color: Colors.blue),
+                          style: const TextStyle().copyWith(fontSize: 12.0, fontWeight: FontWeight.normal, color: Colors.blue),
                         ),
                       ],
                     ),
                   ),
                   SizedBox(height: 8.0),
-                  Text('${result.name}', style: Theme.of(context).textTheme.titleLarge,),
-                  Text('${result.latinName}', style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontStyle: FontStyle.italic),),
+                  Container(
+                    width: 130,
+                    child: Text(
+                      '${result.name}',
+                      style: Theme.of(context).textTheme.titleLarge,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ),
+
+                  Container(
+                    width: 130,
+                    child: Text(
+                        '${result.latinName}',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontStyle: FontStyle.italic),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                  ),
                 ],
               ),
             ),
