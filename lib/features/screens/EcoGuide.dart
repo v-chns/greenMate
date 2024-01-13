@@ -86,7 +86,7 @@ class _EcoGuideState extends State<EcoGuide> {
                             _messages[index].role == 'user' ? true : false,
                             tail: true,
                             color: _messages[index].role == 'user'
-                                ? Color(0xFF128750)
+                                ? Colors.green.shade800
                                 : Colors.lightGreen.shade100,
                             textStyle: TextStyle(
                                 color: _messages[index].role == 'user'
