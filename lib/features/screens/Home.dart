@@ -86,7 +86,7 @@ class _HomeState extends State<Home> {
                   Text(
                     "Home",
                     style: TextStyle(color: currentTab == 0 ? Color(0xFF128750) : Colors.grey ,
-                    fontSize: 14, fontWeight: FontWeight.w500),
+                    fontSize: 13, fontWeight: FontWeight.w500),
                   )
                 ],
               ),
@@ -112,7 +112,7 @@ class _HomeState extends State<Home> {
                   ),
                   Text(
                     "MyPlants",
-                    style: TextStyle(color: currentTab == 1 ? Color(0xFF128750) : Colors.grey , fontSize: 14, fontWeight: FontWeight.w500),
+                    style: TextStyle(color: currentTab == 1 ? Color(0xFF128750) : Colors.grey , fontSize: 13, fontWeight: FontWeight.w500),
                   )
                 ],
               ),
@@ -137,7 +137,7 @@ class _HomeState extends State<Home> {
                   ),
                   Text(
                     "EcoGuide",
-                    style: TextStyle(color: currentTab == 2 ? Color(0xFF128750) : Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
+                    style: TextStyle(color: currentTab == 2 ? Color(0xFF128750) : Colors.grey, fontSize: 13, fontWeight: FontWeight.w500),
                   )
                 ],
               ),
@@ -162,7 +162,7 @@ class _HomeState extends State<Home> {
                   ),
                   Text(
                     "Profile",
-                    style: TextStyle(color: currentTab == 3 ? Color(0xFF128750) : Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
+                    style: TextStyle(color: currentTab == 3 ? Color(0xFF128750) : Colors.grey, fontSize: 13, fontWeight: FontWeight.w500),
                   )
                 ],
               ),

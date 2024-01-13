@@ -71,26 +71,29 @@ class _EcoGuideState extends State<EcoGuide> {
           backgroundColor: Color(0xFF128750)
       ),
       body: Padding (
-        padding: EdgeInsets.only(top: 20, bottom: 30, left: 10, right: 10),
+        padding: EdgeInsets.only(top: 10, bottom: 30, left: 10, right: 10),
         child: Column(
             children: [
               Expanded(
                   child: ListView.builder(
                       itemCount: _messages.length,
                       itemBuilder: (context, index) {
-                        return BubbleSpecialThree(
-                          text: _messages[index].content,
-                          isSender:
-                              _messages[index].role == 'user' ? true : false,
-                          tail: index == 0 ? true : _messages[index-1].role == _messages[index].role ? false : true,
-                          color: _messages[index].role == 'user'
-                              ? Colors.green.shade800
-                              : Colors.lightGreen.shade200,
-                          textStyle: TextStyle(
-                              color: _messages[index].role == 'user'
-                                  ? Colors.white
-                                  : Colors.black,
-                              fontSize: 15),
+                        return Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          child: BubbleSpecialThree(
+                            text: _messages[index].content,
+                            isSender:
+                            _messages[index].role == 'user' ? true : false,
+                            tail: true,
+                            color: _messages[index].role == 'user'
+                                ? Color(0xFF128750)
+                                : Colors.lightGreen.shade100,
+                            textStyle: TextStyle(
+                                color: _messages[index].role == 'user'
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontSize: 15),
+                          ),
                         );
                       })),
               Padding(
