@@ -74,10 +74,10 @@ class _EcoGuideState extends State<EcoGuide> {
                           text: _messages[index].content,
                           isSender:
                               _messages[index].role == 'user' ? true : false,
-                          tail: true,
+                          tail: index == 0 ? true : _messages[index-1].role == _messages[index].role ? false : true,
                           color: _messages[index].role == 'user'
-                              ? Color(0xFF1B97F3)
-                              : Color(0xFFE8E8EE),
+                              ? Colors.green.shade800
+                              : Colors.lightGreen.shade200,
                           textStyle: TextStyle(
                               color: _messages[index].role == 'user'
                                   ? Colors.white

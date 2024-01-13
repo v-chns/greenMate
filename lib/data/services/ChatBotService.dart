@@ -16,7 +16,7 @@ class ChatBotService {
     // call chatbot api
     Map<String, dynamic> jsonData = {'chat': jsonList};
 
-    print(jsonEncode(jsonData));
+    // print(jsonEncode(jsonData));
 
     try {
       final res = await http.post(apiUrl,
@@ -31,9 +31,9 @@ class ChatBotService {
       // print(req.headers);
       // final res = await req.send();
 
-      print(res.statusCode);
+      // print(res.statusCode);
       if (res.statusCode == 200) {
-        print("babi");
+        // print("babi");
         final Map<String, dynamic> jsonResponse = json.decode(res.body);
 
         if (jsonResponse['data'] != null) {

@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
+
+// error, use shared preferences instead
 class CacheManager {
   static Future<void> saveDataToCache(
       String key, String jsonData) async {
