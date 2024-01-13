@@ -1,9 +1,14 @@
+import 'dart:math';
+
 class Plant {
   final String plantClass;
   final String name;
   final String latinName;
   final String family;
   final String kingdom;
+  final String defaultImage;
+  int userPlantId = 0;
+  String userImage = "";
   final List<Maintenance> maintenance;
 
   Plant({
@@ -13,6 +18,7 @@ class Plant {
     required this.family,
     required this.kingdom,
     required this.maintenance,
+    required this.defaultImage,
   });
 
   factory Plant.fromJson(Map<String, dynamic> json) {
@@ -23,6 +29,7 @@ class Plant {
       family: json['data']['family'],
       kingdom: json['data']['kingdom'],
       maintenance: List<Maintenance>.from(json['data']['maintenance'].map((maintenanceJson) => Maintenance.fromJson(maintenanceJson))),
+      defaultImage: json['data']['defaultImage']
     );
   }
 
@@ -34,8 +41,23 @@ class Plant {
       family: json['family'],
       kingdom: json['kingdom'],
       maintenance: List<Maintenance>.from(json['maintenance'].map((maintenanceJson) => Maintenance.fromJson(maintenanceJson))),
+      defaultImage: json['defaultImage']
     );
   }
+
+  Map<String, dynamic> toDBObject(){
+    return{
+      'userPlantId': this.userPlantId,
+      'userImage' : this.userImage,
+      'class' : this.plantClass
+    };
+  }
+
+  void setUserData(int id, String img){
+    this.userPlantId = id;
+    this.userImage = img;
+  }
+
 }
 
 

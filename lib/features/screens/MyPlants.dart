@@ -1,36 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:greenmate/common/widgets/MyPlantWidget.dart';
+import 'package:greenmate/features/models/MyPlant.dart';
 import 'package:greenmate/features/models/Plant.dart';
 
 class MyPlants extends StatefulWidget {
-  final List<Plant> plants = <Plant>[
-    new Plant(
-        plantClass: "Aglaonema",
-        name: "Aglaonema",
-        latinName: "Aglaonema",
-        family: "Aglaonema",
-        kingdom: "Aglaonema",
-        maintenance: [
-          new Maintenance(type: "Aglaonema", description: "Aglaonema"),
-          new Maintenance(type: "Aglaonema", description: "Aglaonema")
-        ]),
-    new Plant(
-        plantClass: "Aglaonema",
-        name: "Aglaonema",
-        latinName: "Aglaonema",
-        family: "Aglaonema",
-        kingdom: "Aglaonema",
-        maintenance: [
-          new Maintenance(type: "Aglaonema", description: "Aglaonema"),
-          new Maintenance(type: "Aglaonema", description: "Aglaonema")
-        ])
-  ];
+  // final List<Plant> plants = <Plant>[
+  //   new Plant(
+  //       plantClass: "Aglaonema",
+  //       name: "Aglaonema",
+  //       latinName: "Aglaonema",
+  //       family: "Aglaonema",
+  //       kingdom: "Aglaonema",
+  //       maintenance: [
+  //         new Maintenance(type: "Aglaonema", description: "Aglaonema"),
+  //         new Maintenance(type: "Aglaonema", description: "Aglaonema")
+  //       ], defaultImage: "temp"),
+  //   new Plant(
+  //       plantClass: "Aglaonema",
+  //       name: "Aglaonema",
+  //       latinName: "Aglaonema",
+  //       family: "Aglaonema",
+  //       kingdom: "Aglaonema",
+  //       maintenance: [
+  //         new Maintenance(type: "Aglaonema", description: "Aglaonema"),
+  //         new Maintenance(type: "Aglaonema", description: "Aglaonema")
+  //       ], defaultImage: "temp")
+  // ];
+
+  final List<Plant> plants = MyPlant.myPlants;
 
   @override
   _MyPlantsState createState() => _MyPlantsState();
 }
 
 class _MyPlantsState extends State<MyPlants> {
+  List<Plant> myplants = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      myplants = widget.plants;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +88,8 @@ class _MyPlantsState extends State<MyPlants> {
                         child: MyPlantWidget(
                             name: widget.plants[index].name,
                             action: widget.plants[index].kingdom,
-                            latinName: widget.plants[index].latinName),
+                            latinName: widget.plants[index].latinName,
+                            image: widget.plants[index].userImage),
                       );
                     },
                   ),

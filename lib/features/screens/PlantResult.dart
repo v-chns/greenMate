@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:greenmate/common/widgets/ResultPanelWidget.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PlantResult extends StatefulWidget {
-  final String path;
-  const PlantResult({Key? key, required this.path}) : super(key: key);
+  // final String path;
+  final XFile imageTaken;
+  const PlantResult({Key? key, required this.imageTaken}) : super(key: key);
 
   @override
   _PlantResult createState() => _PlantResult();
@@ -26,7 +28,7 @@ class _PlantResult extends State<PlantResult> {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
         panelBuilder: (controller) => ResultPanelWidget(
         controller: controller,
-        path: widget.path,),
+        imageFile: widget.imageTaken),
         body: Stack(
             children: [
               // Hasil foto
@@ -34,7 +36,7 @@ class _PlantResult extends State<PlantResult> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height - MediaQuery.of(context).size.height * 0.2,
                 child: Image.file(
-                  File(widget.path),
+                  File(widget.imageTaken.path),
                   fit: BoxFit.cover,
                 ) ,
             ),

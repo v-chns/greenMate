@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:greenmate/common/widgets/PlantOverview.dart';
 import 'package:greenmate/common/widgets/PlantTutorial.dart';
+import 'package:greenmate/data/services/PlantSqlListService.dart';
 import 'package:greenmate/features/models/Plant.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PlantDetails extends StatefulWidget {
   final Plant result;
-  const PlantDetails({Key? key, required this.result}) : super(key: key);
+  final XFile? image;
+
+  const PlantDetails({Key? key, required this.result, this.image}) : super(key: key);
 
   @override
   State<PlantDetails> createState() => _PlantDetailsState();
@@ -16,12 +22,19 @@ class _PlantDetailsState extends State<PlantDetails> {
   late Widget currentScreen;
   final PageStorageBucket bucket = PageStorageBucket();
   bool isBookmarked = false;
+  late final String imgUrl;
+  XFile? localImage;
 
   @override
   void initState() {
     super.initState();
     currentScreen = PlantOverview(result: widget.result);
-    print(widget.result.maintenance);
+    imgUrl = widget.result.defaultImage;
+    if(widget.image!=null){
+      localImage = widget.image!;
+    }
+    
+    // print(widget.result.maintenance);
   }
 
   @override
@@ -34,10 +47,15 @@ class _PlantDetailsState extends State<PlantDetails> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.27,
-                decoration:
-                const BoxDecoration(
+                decoration: localImage == null ? BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/dummyplant.jpg'),
+                    image: NetworkImage(imgUrl),
+                    fit: BoxFit.cover,
+                  ),
+                ) :
+                BoxDecoration(
+                  image: DecorationImage(
+                    image: FileImage(File(localImage!.path)),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -157,8 +175,10 @@ class _PlantDetailsState extends State<PlantDetails> {
               child: Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 100)),
-                  onPressed: () {
+                  onPressed: () async {
                     // Handle button press
+                    PlantSqlLiteService plantSqlLiteService = PlantSqlLiteService();
+                    await plantSqlLiteService.addPlantToLocalDB(widget.result, localImage!);
                   },
                   child: Text('Add Plant'),
                 ),

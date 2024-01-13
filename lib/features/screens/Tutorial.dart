@@ -42,7 +42,7 @@ class _TutorialState extends State<Tutorial> {
     _cameraController.setFlashMode(FlashMode.off);
     // Pindah ke page lain panggilnya API disana aja
     Navigator.push(
-        context, MaterialPageRoute(builder: (builder) => PlantResult(path: path,)));
+        context, MaterialPageRoute(builder: (builder) => PlantResult(imageTaken: picture,)));
     
     // try{
     //   final result = await PlantDetectionService.detectPlant(path);
@@ -67,7 +67,7 @@ class _TutorialState extends State<Tutorial> {
 
       // Pindah ke page lain
       Navigator.push(
-          context, MaterialPageRoute(builder: (builder) => PlantResult(path: path,)));
+          context, MaterialPageRoute(builder: (builder) => PlantResult(imageTaken: pickedFile)));
 
       // // Call API + show result
       // try {

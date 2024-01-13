@@ -3,15 +3,17 @@ import 'package:greenmate/common/widgets/PlantsGridView.dart';
 import 'package:greenmate/data/services/PlantDetectionService.dart';
 import 'package:greenmate/features/models/Plant.dart';
 import 'package:greenmate/features/screens/PlantDetails.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ResultPanelWidget extends StatefulWidget {
   final ScrollController controller;
-  final String path;
+  // final String path;
+  final XFile imageFile;
 
   const ResultPanelWidget({
     Key? key,
     required this.controller,
-    required this.path,
+    required this.imageFile,
   }) : super(key: key);
 
   @override
@@ -38,7 +40,7 @@ class _ResultPanelWidgetState extends State<ResultPanelWidget>{
   // }
 
   Future<void> _loadResult() async {
-    _result = await PlantDetectionService.detectPlant(widget.path);
+    _result = await PlantDetectionService.detectPlant(widget.imageFile.path);
       setState(() {
         _isLoading = false;
       });
@@ -137,7 +139,7 @@ class _ResultPanelWidgetState extends State<ResultPanelWidget>{
 
           ),
         ] else ...[
-          PlantInfoContainer(result: _result!),
+          PlantInfoContainer(result: _result!, imageFile: widget.imageFile),
         ],
       ],
     );
@@ -146,8 +148,9 @@ class _ResultPanelWidgetState extends State<ResultPanelWidget>{
 
 class PlantInfoContainer extends StatelessWidget {
   final Plant result;
+  final XFile imageFile;
 
-  const PlantInfoContainer({Key? key, required this.result}) : super(key: key);
+  const PlantInfoContainer({Key? key, required this.result, required this.imageFile}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +158,7 @@ class PlantInfoContainer extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => PlantDetails(result: result)),
+          MaterialPageRoute(builder: (context) => PlantDetails(result: result, image: imageFile,)),
         );
       },
       child: Container(

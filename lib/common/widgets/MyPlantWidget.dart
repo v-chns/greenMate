@@ -7,12 +7,14 @@ class MyPlantWidget extends StatefulWidget {
   final String name;
   final String latinName;
   final String action;
+  final String image;
 
   const MyPlantWidget(
       {Key? key,
       required this.name,
       required this.action,
-      required this.latinName})
+      required this.latinName,
+      required this.image})
       : super(key: key);
 
   @override
@@ -33,7 +35,7 @@ class _MyPlantWidgetState extends State<MyPlantWidget> {
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: Image.asset(
-              "assets/images/plant_dummy.jpg",
+              widget.image,
               width: 130,
               height: 100,
               fit: BoxFit.cover,
