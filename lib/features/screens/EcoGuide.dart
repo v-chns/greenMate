@@ -64,13 +64,21 @@ class _EcoGuideState extends State<EcoGuide> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Eco Guide AI Bot')),
-      body: Column(children: [
-        Expanded(
-            child: ListView.builder(
-                itemCount: _messages.length,
-                itemBuilder: (context, index) {
-                  return BubbleSpecialThree(
+      appBar: AppBar(
+          title: Text('EcoGuide', style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: Colors.white
+          ),),
+          backgroundColor: Color(0xFF128750)
+      ),
+      body: Padding (
+        padding: EdgeInsets.only(top: 20, bottom: 30, left: 10, right: 10),
+        child: Column(
+            children: [
+              Expanded(
+                  child: ListView.builder(
+                      itemCount: _messages.length,
+                      itemBuilder: (context, index) {
+                        return BubbleSpecialThree(
                           text: _messages[index].content,
                           isSender:
                               _messages[index].role == 'user' ? true : false,
@@ -84,28 +92,42 @@ class _EcoGuideState extends State<EcoGuide> {
                                   : Colors.black,
                               fontSize: 15),
                         );
-                })),
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: Row(children: [
-            Expanded(
-                child: TextField(
-              controller: _messageController,
-              decoration: InputDecoration(
-                hintText: 'Ask Eco for home gardening tips ...',
-              ),
-            )),
-            IconButton(
-                onPressed: () {
-                  String message = _messageController.text.trim();
-                  if (message.isNotEmpty) {
-                    _sendMessage(message);
-                  }
-                },
-                icon: Icon(Icons.send))
-          ]),
-        )
-      ]),
+                      })),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _messageController,
+                        decoration: InputDecoration(
+                          hintText: 'Ask Eco for home gardening tips ...',
+                          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(width: 1, color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(width: 1, color: Color(0xFF128750)), // Adjust the focused border color
+                          ),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        String message = _messageController.text.trim();
+                        if (message.isNotEmpty) {
+                          _sendMessage(message);
+                        }
+                      },
+                      icon: Icon(Icons.send),
+                    ),
+                  ],
+                ),
+              )
+            ]),
+      )
     );
   }
 }

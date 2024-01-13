@@ -4,9 +4,9 @@ class greenmateTextTheme {
   greenmateTextTheme._();
 
   static TextTheme lightTextTheme = TextTheme(
-    headlineLarge: const TextStyle().copyWith(fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.black),
-    headlineMedium: const TextStyle().copyWith(fontSize: 24.0, fontWeight: FontWeight.w600, color: Colors.black),
-    headlineSmall: const TextStyle().copyWith(fontSize: 20.0, fontWeight: FontWeight.w600, color: Colors.black),
+    headlineLarge: const TextStyle().copyWith(fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.black),
+    headlineMedium: const TextStyle().copyWith(fontSize: 22.0, fontWeight: FontWeight.w600, color: Colors.black),
+    headlineSmall: const TextStyle().copyWith(fontSize: 19.0, fontWeight: FontWeight.w600, color: Colors.black),
 
     titleLarge: const TextStyle().copyWith(fontSize: 17.0, fontWeight: FontWeight.w600, color: Colors.black),
     titleMedium: const TextStyle().copyWith(fontSize: 17.0, fontWeight: FontWeight.w500, color: Colors.black),

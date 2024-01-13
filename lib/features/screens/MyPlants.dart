@@ -40,13 +40,25 @@ class _MyPlantsState extends State<MyPlants> {
         child: Scaffold(
           appBar: AppBar(
             bottom: const TabBar(
-              tabs: [Tab(text: "My Plants"), Tab(text: "Saved Tutorials")],
+              tabs: [
+                Tab(child: Text(
+                'My Plants',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),),
+                Tab(child: Text(
+                  'Saved Tutorials',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),)
+              ],
+                indicatorColor: Colors.amber,
+                indicatorWeight: 5.0,
+                indicatorSize: TabBarIndicatorSize.label
             ),
-            title: const Padding(
+            title: Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Text(
-                "MyPlant",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                "MyPlants",
+                style: Theme.of(context).textTheme.titleLarge
               ),
             ),
           ),

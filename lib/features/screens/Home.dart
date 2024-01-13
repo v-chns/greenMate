@@ -35,18 +35,24 @@ class _HomeState extends State<Home> {
         bucket: bucket,
         child: currentScreen,
       ),
-
+      resizeToAvoidBottomInset: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        shape: const CircleBorder(
-          side: BorderSide(color: Colors.white, width: 3.0, style: BorderStyle.solid)
-        ),
-        onPressed: () => Get.toNamed('/tutorial'), // ini redirect ke kamera
-        backgroundColor: Colors.lightGreen[100],
-        elevation: 0,
-        child: SvgPicture.asset('assets/icons/Camera_icon.svg',
-        width: 27,
-        height: 27,
+      floatingActionButton: SizedBox(
+        width: 65,
+        height: 65,
+        child: FloatingActionButton(
+          heroTag: 'Tutorial',
+          shape: const CircleBorder(
+            side: BorderSide(color: Colors.white, width: 3.0, style: BorderStyle.solid),
+          ),
+          onPressed: () => Get.toNamed('/tutorial'), // Redirect to camera
+          backgroundColor: Colors.lightGreen[100],
+          elevation: 0,
+          child: SvgPicture.asset(
+            'assets/icons/Camera_icon.svg',
+            width: 33, // Adjust the width of the icon inside the button
+            height: 33, // Adjust the height of the icon inside the button
+          ),
         ),
       ),
 
@@ -54,6 +60,7 @@ class _HomeState extends State<Home> {
         notchMargin: 5.0,
         shape: const CircularNotchedRectangle(),
         color: Colors.white,
+        elevation: 1,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.max,
@@ -74,12 +81,12 @@ class _HomeState extends State<Home> {
                   SvgPicture.asset('assets/icons/Home_icon.svg',
                     width: 27,
                     height: 27,
-                    color: currentTab == 0 ? Colors.green[800] : Colors.grey,
+                    color: currentTab == 0 ? Color(0xFF128750) : Colors.grey,
                   ),
                   Text(
                     "Home",
-                    style: TextStyle(color: currentTab == 0 ? Colors.green[800] : Colors.grey ,
-                    fontSize: 12, fontWeight: FontWeight.w500),
+                    style: TextStyle(color: currentTab == 0 ? Color(0xFF128750) : Colors.grey ,
+                    fontSize: 14, fontWeight: FontWeight.w500),
                   )
                 ],
               ),
@@ -101,11 +108,11 @@ class _HomeState extends State<Home> {
                   SvgPicture.asset('assets/icons/MyPlants_icon.svg',
                     width: 27,
                     height: 27,
-                    color: currentTab == 1 ? Colors.green[800] : Colors.grey,
+                    color: currentTab == 1 ? Color(0xFF128750) : Colors.grey,
                   ),
                   Text(
                     "MyPlants",
-                    style: TextStyle(color: currentTab == 1 ? Colors.green[800] : Colors.grey , fontSize: 12, fontWeight: FontWeight.w500),
+                    style: TextStyle(color: currentTab == 1 ? Color(0xFF128750) : Colors.grey , fontSize: 14, fontWeight: FontWeight.w500),
                   )
                 ],
               ),
@@ -126,11 +133,11 @@ class _HomeState extends State<Home> {
                   SvgPicture.asset('assets/icons/GreenGuru_icon.svg',
                     width: 27,
                     height: 27,
-                    color: currentTab == 2 ? Colors.green[800] : Colors.grey,
+                    color: currentTab == 2 ? Color(0xFF128750) : Colors.grey,
                   ),
                   Text(
                     "EcoGuide",
-                    style: TextStyle(color: currentTab == 2 ? Colors.green[800] : Colors.grey, fontSize: 12, fontWeight: FontWeight.w500),
+                    style: TextStyle(color: currentTab == 2 ? Color(0xFF128750) : Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
                   )
                 ],
               ),
@@ -151,11 +158,11 @@ class _HomeState extends State<Home> {
                   SvgPicture.asset('assets/icons/Profile_icon.svg',
                     width: 27,
                     height: 27,
-                    color: currentTab == 3 ? Colors.green[800] : Colors.grey,
+                    color: currentTab == 3 ? Color(0xFF128750) : Colors.grey,
                   ),
                   Text(
                     "Profile",
-                    style: TextStyle(color: currentTab == 3 ? Colors.green[800] : Colors.grey, fontSize: 12, fontWeight: FontWeight.w500),
+                    style: TextStyle(color: currentTab == 3 ? Color(0xFF128750) : Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
                   )
                 ],
               ),

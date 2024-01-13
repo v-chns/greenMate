@@ -10,8 +10,9 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(title: Text('Profile')),
-      // body: HomeCalendarWidget(),
+      appBar: AppBar(title: Text('Profile', style: Theme.of(context).textTheme.titleLarge,)
+
+      ),
     );
   }
 }
