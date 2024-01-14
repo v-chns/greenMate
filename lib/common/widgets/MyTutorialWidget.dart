@@ -3,39 +3,35 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:greenmate/data/services/PlantSqlLiteService.dart';
+import 'package:greenmate/data/services/TutorialSqlLiteService.dart';
+import 'package:greenmate/features/models/MyTutorial.dart';
 import 'package:greenmate/features/models/Plant.dart';
 import 'package:greenmate/features/screens/MyPlantsDetails.dart';
 import 'package:greenmate/features/screens/PlantDetails.dart';
 
-class MyPlantWidget extends StatefulWidget {
-  // final ScrollController controller;
-  // final String name;
-  // final String latinName;
-  // final String action;
-  // final String image;
-  // final int id;
+class MyTutorialWidget extends StatefulWidget {
 
   final Plant activePlant;
   final void Function() callBackFunc;
   final void Function() endFunc;
 
-  const MyPlantWidget(
+  const MyTutorialWidget(
       {Key? key,
-      required this.activePlant,
-      required this.callBackFunc,
-      required this.endFunc})
+        required this.activePlant,
+        required this.callBackFunc,
+        required this.endFunc})
       : super(key: key);
 
   @override
-  _MyPlantWidgetState createState() => _MyPlantWidgetState();
+  _MyTutorialWidgetState createState() => _MyTutorialWidgetState();
 }
 
-class _MyPlantWidgetState extends State<MyPlantWidget> {
+class _MyTutorialWidgetState extends State<MyTutorialWidget> {
   void onPress() {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => MyPlantsDetails(result: widget.activePlant)),
+          builder: (context) => PlantDetails(result: widget.activePlant)),
     );
   }
 
@@ -52,9 +48,9 @@ class _MyPlantWidgetState extends State<MyPlantWidget> {
                 label: 'Delete',
                 borderRadius: BorderRadius.circular(10),
                 onPressed: (context) async {
-                  PlantSqlLiteService plantSqlLiteService = PlantSqlLiteService();
+                  TutorialSqlLiteService tutorialService = TutorialSqlLiteService();
                   widget.callBackFunc();
-                  await plantSqlLiteService.deletePlant(widget.activePlant.userPlantId);
+                  await tutorialService.deleteTutorial(widget.activePlant.userTutorialId);
                   widget.endFunc();
                 }
             )
@@ -76,8 +72,8 @@ class _MyPlantWidgetState extends State<MyPlantWidget> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.file(
-                    File(widget.activePlant.userImage),
+                  child: Image.network(
+                    widget.activePlant.defaultImage,
                     width: 130,
                     height: 100,
                     fit: BoxFit.cover,

@@ -8,7 +8,9 @@ class Plant {
   final String kingdom;
   final String defaultImage;
   int userPlantId = 0;
+  int userTutorialId = 0;
   String userImage = "";
+  List<Instruction> instructions = [Instruction("", "")];
   final List<Maintenance> maintenance;
 
   Plant({
@@ -53,6 +55,17 @@ class Plant {
     };
   }
 
+  Map<String, dynamic> toDBTutorialObject(){
+    return{
+      'userTutorialId': this.userTutorialId,
+      'class' : this.plantClass
+    };
+  }
+
+  void setUserTutorialData(int id){
+    this.userTutorialId = id;
+  }
+
   void setUserData(int id, String img){
     this.userPlantId = id;
     this.userImage = img;
@@ -73,4 +86,11 @@ class Maintenance {
       description: json['description'],
     );
   }
+}
+
+class Instruction {
+  final String title;
+  final String content;
+
+  Instruction(this.title, this.content);
 }

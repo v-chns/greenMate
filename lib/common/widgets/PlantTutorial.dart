@@ -19,14 +19,18 @@ class _PlantTutorialState extends State<PlantTutorial> {
   @override
   void initState() {
     super.initState();
-    if(!_isTutorialInitialized|| _tutorial.isEmpty){
+    if(widget.result.instructions.first.content == "" || widget.result.instructions.first.title == ""){
       _generateTutorial();
+    } else{
+      _isLoading = false;
+      _isTutorialInitialized = true;
     }
   }
 
   Future<void> _generateTutorial() async {
     _tutorial = await PlantTutorialService.generatePlantTutorial(widget.result.name);
     instructions = parseInstructions(_tutorial);
+    widget.result.instructions = instructions;
     for (Instruction instruction in instructions) {
       print('Title: ${instruction.title}');
       print('Content: ${instruction.content}');
@@ -58,7 +62,7 @@ class _PlantTutorialState extends State<PlantTutorial> {
     // Ini klau udah selesai loading
     Scaffold(
       body: ListView.builder(
-        itemCount: instructions.length,
+        itemCount: widget.result.instructions.length,
         itemBuilder: (context, index) {
           return Container(
             padding: EdgeInsets.all(8),
@@ -107,7 +111,7 @@ class _PlantTutorialState extends State<PlantTutorial> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            instructions[index].title,
+                            widget.result.instructions[index].title,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16.0,
@@ -115,7 +119,7 @@ class _PlantTutorialState extends State<PlantTutorial> {
                           ),
                           SizedBox(height: 5.0),
                           Text(
-                            instructions[index].content,
+                            widget.result.instructions[index].content,
                             style: TextStyle(fontSize: 14.0),
                           ),
                         ],
@@ -159,11 +163,4 @@ List<Instruction> parseInstructions(String response) {
   }
 
   return instructions;
-}
-
-class Instruction {
-  final String title;
-  final String content;
-
-  Instruction(this.title, this.content);
 }

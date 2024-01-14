@@ -29,6 +29,7 @@ class DatabaseService{
   Future<void> _onCreate(Database db, int version) async {
     // Create your tables and perform any initial setup here
     await db.execute('CREATE TABLE my_plants (userPlantId INTEGER PRIMARY KEY, userImage TEXT, class TEXT)');
+    await db.execute('CREATE TABLE my_tutorials (userTutorialId INTEGER PRIMARY KEY, class TEXT)');
     // Add more table creation statements if needed
   }
 }

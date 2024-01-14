@@ -31,6 +31,20 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    String getGreeting() {
+      var hour = DateTime.now().hour;
+
+      if (hour >= 6 && hour < 12) {
+        return "Good Morning ⛅";
+      } else if (hour >= 12 && hour < 18) {
+        return "Good Afternoon 🌅";
+      } else if (hour >= 18 && hour < 22) {
+        return "Good Evening 🌆";
+      } else {
+        return "Good Night 🌙";
+      }
+    }
+
     return Scaffold(
         // appBar: AppBar(
         //   title: Text(""),
@@ -38,7 +52,7 @@ class _DashboardState extends State<Dashboard> {
         body: SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(20),
         child: Padding(
           padding: const EdgeInsets.only(top: 30),
           child: Row(
@@ -47,12 +61,12 @@ class _DashboardState extends State<Dashboard> {
                   child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 8),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 10),
                     child: Text(
-                      "Good Morning",
+                      getGreeting(),
                       style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                   ),
                   Card(
@@ -77,7 +91,7 @@ class _DashboardState extends State<Dashboard> {
                                   fit: BoxFit.cover,
                                   opacity: 0.3),
                               // color: Colors.black,
-                              borderRadius: BorderRadius.circular(15)),
+                              borderRadius: BorderRadius.circular(8)),
                         ),
                         //content
                         Container(
@@ -133,11 +147,15 @@ class _DashboardState extends State<Dashboard> {
                   const Text("Plant Recommendation For You",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8.0),
                   CarouselSlider.builder(
                     itemCount: plants.length,
                     itemBuilder: (BuildContext context, int itemIndex,
                         int pageViewIndex) {
-                      return PlantCarouselItemWidget(plant: plants[itemIndex]);
+                      return Padding(
+                        padding: EdgeInsets.only(top: 25, bottom: 10),
+                        child: PlantCarouselItemWidget(plant: plants[itemIndex]),
+                      );
                     },
                     options: CarouselOptions(
                       // height: 200,

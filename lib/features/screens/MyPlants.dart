@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:greenmate/common/widgets/MyPlantWidget.dart';
+import 'package:greenmate/common/widgets/MyTutorialWidget.dart';
 import 'package:greenmate/data/services/PlantSqlLiteService.dart';
+import 'package:greenmate/data/services/TutorialSqlLiteService.dart';
 import 'package:greenmate/features/models/MyPlant.dart';
+import 'package:greenmate/features/models/MyTutorial.dart';
 import 'package:greenmate/features/models/Plant.dart';
 
 class MyPlants extends StatefulWidget {
@@ -29,6 +32,7 @@ class MyPlants extends StatefulWidget {
   // ];
 
   final List<Plant> plants = MyPlant.myPlants;
+  final List<Plant> tutorials = MyTutorial.myTutorials;
 
   @override
   _MyPlantsState createState() => _MyPlantsState();
@@ -36,6 +40,7 @@ class MyPlants extends StatefulWidget {
 
 class _MyPlantsState extends State<MyPlants> {
   List<Plant> myplants = [];
+  List<Plant> mytutorials = [];
 
   @override
   void initState() {
@@ -44,6 +49,7 @@ class _MyPlantsState extends State<MyPlants> {
     super.initState();
     setState(() {
       myplants = widget.plants;
+      mytutorials = widget.tutorials;
     });
   }
 
@@ -55,6 +61,27 @@ class _MyPlantsState extends State<MyPlants> {
       _shouldRefresh = true;
     });
   }
+
+
+
+  bool _shouldRefreshTutorial = false;
+
+  void _triggerTutorialRefresh() async {
+    setState(() {
+      _shouldRefreshTutorial = true;
+    });
+  }
+
+  Future<void> _handleRefreshTutorial() async {
+
+    List<Plant> temp2 = await TutorialSqlLiteService().getMyTutorials();
+
+    setState(() {
+      _shouldRefreshTutorial = false;
+      mytutorials = temp2;
+    });
+  }
+
 
   // Function to handle the refresh
   Future<void> _handleRefresh() async {
@@ -101,10 +128,11 @@ class _MyPlantsState extends State<MyPlants> {
             ),
           ),
           body: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(5),
               child: TabBarView(
                 children: [
                   RefreshIndicator(
+                      onRefresh: _handleRefresh,
                       child: _shouldRefresh
                           ? Center(child: CircularProgressIndicator())
                           : ListView.builder(
@@ -121,9 +149,27 @@ class _MyPlantsState extends State<MyPlants> {
                                       ),
                                 );
                               },
+                            )),
+                  // TUTORIAL LIST
+                  RefreshIndicator(
+                      onRefresh: _handleRefreshTutorial,
+                      child: _shouldRefreshTutorial
+                          ? Center(child: CircularProgressIndicator())
+                          : ListView.builder(
+                        itemCount: mytutorials.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: MyTutorialWidget(
+                              activePlant: mytutorials[index],
+                              callBackFunc: _triggerTutorialRefresh,
+                              endFunc: () async {
+                                await _handleRefreshTutorial();
+                              },
                             ),
-                      onRefresh: _handleRefresh),
-                  Text("Ini saved tutorials")
+                          );
+                        },
+                      )),
                 ],
               )),
         ),

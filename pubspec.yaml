@@ -59,6 +59,7 @@ dependencies:
   table_calendar: ^3.0.9
   sqflite: ^2.3.0
   dio: ^5.4.0
+  flutter_slidable: ^3.0.1
 
 
 

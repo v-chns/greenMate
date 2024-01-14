@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:greenmate/common/widgets/PlantOverview.dart';
 import 'package:greenmate/common/widgets/PlantTutorial.dart';
 import 'package:greenmate/data/services/GetPlantsList.dart';
+import 'package:greenmate/data/services/TutorialSqlLiteService.dart';
 import 'package:greenmate/data/services/NetworkImageDownloader.dart';
-import 'package:greenmate/data/services/PlantSqlListService.dart';
+import 'package:greenmate/data/services/PlantSqlLiteService.dart';
 import 'package:greenmate/features/models/MyPlant.dart';
+import 'package:greenmate/features/models/MyTutorial.dart';
 import 'package:greenmate/features/models/Plant.dart';
 import 'package:greenmate/features/screens/Dashboard.dart';
+import 'package:greenmate/features/screens/MyPlants.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PlantDetails extends StatefulWidget {
@@ -88,11 +91,22 @@ class _PlantDetailsState extends State<PlantDetails> {
                   isBookmarked ? Icons.bookmark : Icons.bookmark_add_outlined,
                   color: Colors.white,
                   size: 30.0),
-              onPressed: () {
-                // Handle bookmark
-                setState(() {
-                  isBookmarked = !isBookmarked;
-                });
+              onPressed: ()
+                // Handle bookmark -> ini buat save tutorials
+                async {
+                  if(!isBookmarked){
+                    TutorialSqlLiteService tutorialService = TutorialSqlLiteService();
+                    await tutorialService.addTutorialToLocalDB(widget.result);
+                    MyTutorial.myTutorials = await TutorialSqlLiteService().getMyTutorials();
+                  } else{
+                    TutorialSqlLiteService tutorialService = TutorialSqlLiteService();
+                    await tutorialService.deleteTutorial(widget.result.userTutorialId);
+                    MyTutorial.myTutorials = await TutorialSqlLiteService().getMyTutorials();
+                  }
+                  setState(() {
+                    isBookmarked = !isBookmarked;
+                  });
+
               },
             ),
           ),
@@ -191,7 +205,7 @@ class _PlantDetailsState extends State<PlantDetails> {
             child: Center(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 100)),
+                    padding: const EdgeInsets.symmetric(horizontal: 115)),
                 onPressed: () async {
                   // Handle button press
                   if (localImage == null) {
@@ -215,6 +229,8 @@ class _PlantDetailsState extends State<PlantDetails> {
                     await plantSqlLiteService.addPlantToLocalDB(
                         widget.result, localImage!);
                   }
+                  await showConfirmationDialog(context);
+
                 },
                 child: Text('Add Plant'),
               ),
@@ -224,4 +240,49 @@ class _PlantDetailsState extends State<PlantDetails> {
       ],
     ));
   }
+
+  Future<void> showConfirmationDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child:
+          Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/myplants.png', height: 120),
+                SizedBox(height: 10),
+                Text('Happy Planting!', style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.amber), textAlign: TextAlign.center
+                ),
+                SizedBox(height: 10),
+                Text('Your plant has been added to MyGreen.', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey), textAlign: TextAlign.center,),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MyPlants()),
+                    );
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+          ),
+
+        );
+      },
+    );
+  }
 }
+
