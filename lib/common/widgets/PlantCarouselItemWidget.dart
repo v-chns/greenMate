@@ -35,8 +35,8 @@ class _PlantCarouselItemWidget extends State<PlantCarouselItemWidget> {
     return OverflowBox(
         maxHeight: double.infinity,
         // maxWidth: double.infinity,
-        child: GestureDetector(
-          onTap: onTap,
+        child: MaterialButton(
+          onPressed: onTap,
           child: Column(
             children: [
               Stack(

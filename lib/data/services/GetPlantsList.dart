@@ -45,7 +45,8 @@ class GetPlantsList {
     );
 
     if (response.statusCode == 200) {
-      final data = json.decode(response.body)['data'];
+      final data = json.decode(response.body);
+      print(data);
       if(data != null){
         return Plant.fromJson(data);
       }

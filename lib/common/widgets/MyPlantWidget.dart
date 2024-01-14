@@ -1,20 +1,25 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:greenmate/data/services/PlantSqlListService.dart';
+import 'package:greenmate/features/models/Plant.dart';
+import 'package:greenmate/features/screens/PlantDetails.dart';
 
 class MyPlantWidget extends StatefulWidget {
   // final ScrollController controller;
-  final String name;
-  final String latinName;
-  final String action;
-  final String image;
+  // final String name;
+  // final String latinName;
+  // final String action;
+  // final String image;
+  // final int id;
+
+  final Plant activePlant;
+  final void Function() callBackFunc;
 
   const MyPlantWidget(
       {Key? key,
-      required this.name,
-      required this.action,
-      required this.latinName,
-      required this.image})
+      required this.activePlant,
+      required this.callBackFunc})
       : super(key: key);
 
   @override
@@ -23,19 +28,23 @@ class MyPlantWidget extends StatefulWidget {
 
 class _MyPlantWidgetState extends State<MyPlantWidget> {
   void onPress() {
-    print('babi');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => PlantDetails(result: widget.activePlant)),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPress,
+    return MaterialButton(
+      onPressed: onPress,
       child: Row(
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
-            child: Image.asset(
-              widget.image,
+            child: Image.file(
+              File(widget.activePlant.userImage),
               width: 130,
               height: 100,
               fit: BoxFit.cover,
@@ -46,24 +55,35 @@ class _MyPlantWidgetState extends State<MyPlantWidget> {
             child: Expanded(
                 child: Column(
               children: [
-                Text(widget.name,
+                Text(widget.activePlant.name,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     )),
                 Text(
-                  widget.latinName,
+                  widget.activePlant.latinName,
                   textAlign: TextAlign.left,
                   style: const TextStyle(
                       fontSize: 12, fontStyle: FontStyle.italic),
                 ),
                 Text(
-                  widget.action,
+                  widget.activePlant.maintenance[0].type,
                   textAlign: TextAlign.left,
                 )
               ],
             )),
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child:
+                IconButton(icon: Icon(Icons.delete_forever), onPressed: () async {
+                  PlantSqlLiteService plantSqlLiteService = PlantSqlLiteService();
+                  
+                  widget.callBackFunc();
+                  await plantSqlLiteService.deletePlant(widget.activePlant.userPlantId);
+                }),
           )
         ],
       ),

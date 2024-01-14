@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:greenmate/data/services/GetPlantsList.dart';
 import 'package:greenmate/data/services/db/DatabaseService.dart';
+import 'package:greenmate/features/models/MyPlant.dart';
 import 'package:greenmate/features/models/Plant.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -44,22 +45,33 @@ class PlantSqlLiteService {
   }
 
   Future<List<Plant>> getMyPlants() async {
-    List<Plant> output = List.empty();
+    List<Plant> output = [];
     DatabaseService databaseService = DatabaseService.instance;
     Database db = await databaseService.database;
     GetPlantsList getPlantsList = GetPlantsList();
 
     final List<Map<String, dynamic>> res = await db.query('my_plants');
 
-    for (int i = 0; i < res.length; i++) {
-      final String classPlant = res[i]['class'];
+    for (var i in res) {
+      final String classPlant = i['class'];
+      // print(classPlant);
       Plant? genericData = await getPlantsList.getPlantByClass(classPlant);
+      // print("babi");
+      // print(genericData);
       if (genericData != null) {
-        genericData.setUserData(res[i]['userPlantId'], res[i]['userImage']);
+        genericData.setUserData(i['userPlantId'], i['userImage']);
         output.add(genericData);
       }
     }
 
+    MyPlant.myPlants = output;
+
     return output;
+  }
+
+   Future<int> deletePlant(int id) async {
+    DatabaseService databaseService = DatabaseService.instance;
+    Database db = await databaseService.database;
+    return await db.delete('my_plants', where: 'userPlantId = ?', whereArgs: [id]);
   }
 }
