@@ -11,7 +11,11 @@ class PlantOverview extends StatefulWidget {
 
 class _PlantOverviewState extends State<PlantOverview> {
 
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +136,7 @@ class MaintenanceContainer extends StatelessWidget {
               ),
               SizedBox(width: 15.0),
               Text(
-                type,
+                type == 'SoilType' ? 'Soil Type' : type,
                 style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600),
               ),
             ],

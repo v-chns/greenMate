@@ -4,9 +4,11 @@ import 'package:greenmate/data/cache/CacheManager.dart';
 import 'package:greenmate/data/cache/SharedPreferencesManager.dart';
 import 'package:greenmate/data/services/GetPlantsList.dart';
 import 'package:greenmate/data/services/PlantSqlLiteService.dart';
+import 'package:greenmate/data/services/TutorialSqlLiteService.dart';
 import 'package:greenmate/data/services/db/DatabaseService.dart';
 import 'package:greenmate/features/models/ChatMessage.dart';
 import 'package:greenmate/features/models/MyPlant.dart';
+import 'package:greenmate/features/models/MyTutorial.dart';
 import 'package:greenmate/features/models/Plant.dart';
 import 'package:greenmate/features/screens/Dashboard.dart';
 import 'package:greenmate/features/screens/EcoGuide.dart';
@@ -31,10 +33,9 @@ Future<void> main() async {
 
   // Cache Loading
   chatHistory = await SharedPreferencesManager.getChatHistory();
-
-  // load api
   // allPlants = await getPlantsList.getAllPlants();
-  MyPlant.myPlants = await PlantSqlLiteService().getMyPlants();  
+  MyPlant.myPlants = await PlantSqlLiteService().getMyPlants();
+  MyTutorial.myTutorials = await TutorialSqlLiteService().getMyTutorials();
 
   runApp(const MyApp());
 }

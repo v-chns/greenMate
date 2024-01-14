@@ -53,7 +53,7 @@ class _PlantsGridViewState extends State<PlantsGridView> {
       ),
       itemCount: plantsList.length,
       itemBuilder: (context, index) {
-        return _buildPlantContainer(plantsList[index], 'assets/images/dummyplant.jpg', context);
+        return _buildPlantContainer(plantsList[index], plantsList[index].defaultImage, context);
       },
     )
     ;
@@ -74,16 +74,13 @@ Widget _buildPlantContainer(Plant plant, String imagePath, BuildContext context)
       width: 140,
       child: Column(
         children: [
-          Container(
-            height: 110,
-            width: 140,
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.circular(3.0),
-              image: DecorationImage(
-                image: AssetImage(imagePath),
-                fit: BoxFit.cover,
-              ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.network(
+              imagePath,
+              width: 140,
+              height: 100,
+              fit: BoxFit.cover,
             ),
           ),
           SizedBox(height: 1),

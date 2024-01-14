@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:greenmate/common/widgets/PlantOverview.dart';
 import 'package:greenmate/common/widgets/PlantTutorial.dart';
 import 'package:greenmate/data/services/GetPlantsList.dart';
+import 'package:greenmate/data/services/TutorialSqlLiteService.dart';
 import 'package:greenmate/data/services/NetworkImageDownloader.dart';
 import 'package:greenmate/data/services/PlantSqlLiteService.dart';
 import 'package:greenmate/features/models/MyPlant.dart';
+import 'package:greenmate/features/models/MyTutorial.dart';
 import 'package:greenmate/features/models/Plant.dart';
 import 'package:greenmate/features/screens/Dashboard.dart';
+import 'package:greenmate/features/screens/MyPlants.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PlantDetails extends StatefulWidget {
@@ -22,13 +25,18 @@ class PlantDetails extends StatefulWidget {
   State<PlantDetails> createState() => _PlantDetailsState();
 }
 
-class _PlantDetailsState extends State<PlantDetails> {
+class _PlantDetailsState extends State<PlantDetails>
+    with SingleTickerProviderStateMixin {
   int currentTab = 0;
   late Widget currentScreen;
   final PageStorageBucket bucket = PageStorageBucket();
   bool isBookmarked = false;
   late final String imgUrl;
   XFile? localImage;
+  bool activePage = false;
+  late TabController _tabController;
+  bool isTutorialGenerated = false;
+  String activeTutorial = "";
 
   @override
   void initState() {
@@ -39,7 +47,28 @@ class _PlantDetailsState extends State<PlantDetails> {
       localImage = widget.image!;
     }
 
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      if(_tabController.index==0){
+        setState(() {
+          activePage = false;
+        });
+      }
+      else if(_tabController.index==1){
+        setState(() {
+          activePage = true;
+        });
+      }
+    });
+
     // print(widget.result.maintenance);
+  }
+
+  @override
+  void dispose() {
+    // Dispose of the TabController when the widget is disposed
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -80,22 +109,37 @@ class _PlantDetailsState extends State<PlantDetails> {
           ),
 
           // Bookmark button
-          Positioned(
-            top: 30,
-            right: 20.0,
-            child: IconButton(
-              icon: Icon(
-                  isBookmarked ? Icons.bookmark : Icons.bookmark_add_outlined,
-                  color: Colors.white,
-                  size: 30.0),
-              onPressed: () {
-                // Handle bookmark
-                setState(() {
-                  isBookmarked = !isBookmarked;
-                });
-              },
-            ),
-          ),
+          // Positioned(
+          //   top: 30,
+          //   right: 20.0,
+          //   child: IconButton(
+          //     icon: Icon(
+          //         isBookmarked ? Icons.bookmark : Icons.bookmark_add_outlined,
+          //         color: Colors.white,
+          //         size: 30.0),
+          //     onPressed: ()
+          //         // Handle bookmark -> ini buat save tutorials
+          //         async {
+          //       if (!isBookmarked) {
+          //         TutorialSqlLiteService tutorialService =
+          //             TutorialSqlLiteService();
+          //         await tutorialService.addTutorialToLocalDB(widget.result);
+          //         MyTutorial.myTutorials =
+          //             await TutorialSqlLiteService().getMyTutorials();
+          //       } else {
+          //         TutorialSqlLiteService tutorialService =
+          //             TutorialSqlLiteService();
+          //         await tutorialService
+          //             .deleteTutorial(widget.result.userTutorialId);
+          //         MyTutorial.myTutorials =
+          //             await TutorialSqlLiteService().getMyTutorials();
+          //       }
+          //       setState(() {
+          //         isBookmarked = !isBookmarked;
+          //       });
+          //     },
+          //   ),
+          // ),
         ]),
 
         // Plant names
@@ -132,7 +176,8 @@ class _PlantDetailsState extends State<PlantDetails> {
             initialIndex: 0,
             child: Column(
               children: [
-                const TabBar(
+                TabBar(
+                  controller: _tabController,
                   tabs: [
                     Tab(
                       child: Text(
@@ -158,9 +203,15 @@ class _PlantDetailsState extends State<PlantDetails> {
                     padding: EdgeInsets.only(
                         left: 20, right: 20, top: 10, bottom: 0),
                     child: TabBarView(
+                      controller: _tabController,
                       children: [
                         PlantOverview(result: widget.result),
-                        PlantTutorial(result: widget.result),
+                        PlantTutorial(result: widget.result, callBackFunc: (res){
+                          setState(() {
+                            isTutorialGenerated = true;
+                            activeTutorial = res;
+                          });
+                        }),
                       ],
                     ),
                   ),
@@ -171,57 +222,152 @@ class _PlantDetailsState extends State<PlantDetails> {
         ),
 
         // Add Plant Button
-        widget.result.userPlantId == 0 ? 
-        Positioned(
-          bottom: 0,
-          width: MediaQuery.of(context).size.width,
-          child: Container(
-            padding: EdgeInsets.only(top: 5, bottom: 5),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: Offset(0, 3),
+        widget.result.userPlantId == 0
+            ? !activePage
+                ? Positioned(
+                    bottom: 0,
+                    width: MediaQuery.of(context).size.width,
+                    child: Container(
+                      padding: EdgeInsets.only(top: 5, bottom: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 115)),
+                          onPressed: () async {
+                            // Handle button press
+                            if (localImage == null) {
+                              // final imageStream = NetworkImage(widget.result.defaultImage);
+                              // final imgStream = await imageStream.resolve(ImageConfiguration.empty);
+                              //  final byteData = await imageStream.loadImage(key, (buffer, {getTargetSize}) => null);
+                              // final bytes = byteData!.buffer.asUint8List();
+                              XFile netImage = await NetworkImageDownloader
+                                  .getImageXFileByUrl(
+                                      widget.result.defaultImage);
+                              PlantSqlLiteService plantSqlLiteService =
+                                  PlantSqlLiteService();
+                              await plantSqlLiteService.addPlantToLocalDB(
+                                  widget.result, netImage);
+                              MyPlant.myPlants =
+                                  await PlantSqlLiteService().getMyPlants();
+                              // GetPlantsList getPlantsList = GetPlantsList();
+                              // allPlants = await getPlantsList.getAllPlants();
+                            } else {
+                              PlantSqlLiteService plantSqlLiteService =
+                                  PlantSqlLiteService();
+                              await plantSqlLiteService.addPlantToLocalDB(
+                                  widget.result, localImage!);
+                            }
+                            await showConfirmationDialog(context);
+                          },
+                          child: Text('Add Plant'),
+                        ),
+                      ),
+                    ),
+                  )
+                : isTutorialGenerated ? Positioned(
+                    bottom: 0,
+                    width: MediaQuery.of(context).size.width,
+                    child: Container(
+                      padding: EdgeInsets.only(top: 5, bottom: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.yellow.shade700,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 115)),
+                          onPressed: () async {
+                            TutorialSqlLiteService tutorialService =
+                                TutorialSqlLiteService();
+                            await tutorialService
+                                .addTutorialToLocalDB(widget.result, activeTutorial);
+                            MyTutorial.myTutorials =
+                                await TutorialSqlLiteService().getMyTutorials();
+                          },
+                          child: Text(
+                            'Save Tutorial',
+                            style: TextStyle(color: Colors.green.shade900),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ) : Container()
+            : Container(),
+      ],
+    ));
+  }
+
+  Future<void> showConfirmationDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/myplants.png', height: 120),
+                SizedBox(height: 10),
+                Text('Happy Planting!',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall
+                        ?.copyWith(color: Colors.amber),
+                    textAlign: TextAlign.center),
+                SizedBox(height: 10),
+                Text(
+                  'Your plant has been added to MyGreen.',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: Colors.grey),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyPlants()),
+                    );
+                  },
+                  child: Text('OK'),
                 ),
               ],
             ),
-            child: Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 100)),
-                onPressed: () async {
-                  // Handle button press
-                  if (localImage == null) {
-                    // final imageStream = NetworkImage(widget.result.defaultImage);
-                    // final imgStream = await imageStream.resolve(ImageConfiguration.empty);
-                    //  final byteData = await imageStream.loadImage(key, (buffer, {getTargetSize}) => null);
-                    // final bytes = byteData!.buffer.asUint8List();
-                    XFile netImage =
-                        await NetworkImageDownloader.getImageXFileByUrl(
-                            widget.result.defaultImage);
-                    PlantSqlLiteService plantSqlLiteService =
-                        PlantSqlLiteService();
-                    await plantSqlLiteService.addPlantToLocalDB(
-                        widget.result, netImage);
-                        MyPlant.myPlants = await PlantSqlLiteService().getMyPlants();
-                        // GetPlantsList getPlantsList = GetPlantsList();
-                        // allPlants = await getPlantsList.getAllPlants();
-                  } else {
-                    PlantSqlLiteService plantSqlLiteService =
-                        PlantSqlLiteService();
-                    await plantSqlLiteService.addPlantToLocalDB(
-                        widget.result, localImage!);
-                  }
-                },
-                child: Text('Add Plant'),
-              ),
-            ),
           ),
-        ) : Container(),
-      ],
-    ));
+        );
+      },
+    );
   }
 }

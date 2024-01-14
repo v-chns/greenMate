@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:greenmate/data/services/PlantSqlLiteService.dart';
 import 'package:greenmate/features/models/Plant.dart';
+import 'package:greenmate/features/screens/MyPlantsDetails.dart';
 import 'package:greenmate/features/screens/PlantDetails.dart';
 
 class MyPlantWidget extends StatefulWidget {
@@ -33,73 +35,90 @@ class _MyPlantWidgetState extends State<MyPlantWidget> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => PlantDetails(result: widget.activePlant)),
+          builder: (context) => MyPlantsDetails(result: widget.activePlant)),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: onPress,
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image.file(
-              File(widget.activePlant.userImage),
-              width: 130,
-              height: 100,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Expanded(
-              child: Container(
-            margin: EdgeInsets.only(left: 10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                    widget.activePlant.name.length > 20
-                        ? widget.activePlant.name.substring(0, 20 - 3) + '...'
-                        : widget.activePlant.name,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    )),
-                Text(
-                  widget.activePlant.latinName.length > 20
-                      ? widget.activePlant.latinName.substring(0, 20 - 3) +
-                          '...'
-                      : widget.activePlant.latinName,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontSize: 12, fontStyle: FontStyle.italic),
-                ),
-                Text(
-                  widget.activePlant.maintenance[0].type,
-                  textAlign: TextAlign.left,
-                )
-              ],
-            ),
-          )),
-          Container(
-            // margin: EdgeInsets.only(left: 15.0),
-            alignment: Alignment.centerRight,
-            child: IconButton(
-                icon: Icon(Icons.delete_forever),
-                onPressed: () async {
+    return Slidable(
+        endActionPane: ActionPane(
+          motion: const StretchMotion(),
+          children: [
+            SlidableAction(
+                backgroundColor: Colors.red.shade600,
+                icon: Icons.delete_forever,
+                label: 'Delete',
+                borderRadius: BorderRadius.circular(10),
+                onPressed: (context) async {
                   PlantSqlLiteService plantSqlLiteService =
                       PlantSqlLiteService();
-
                   widget.callBackFunc();
                   await plantSqlLiteService
                       .deletePlant(widget.activePlant.userPlantId);
                   widget.endFunc();
-                }),
-          )
-        ],
-      ),
-    );
+                })
+          ],
+        ),
+        child: MaterialButton(
+          onPressed: onPress,
+          elevation: 4,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey.shade100, width: 1),
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.file(
+                    File(widget.activePlant.userImage),
+                    width: 130,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                SizedBox(width: 10.0),
+                Expanded(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 130,
+                      child: Text(widget.activePlant.name,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          )),
+                    ),
+                    Container(
+                      width: 130,
+                      child: Text(
+                        widget.activePlant.latinName,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                            fontSize: 13, fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                    Text(
+                      widget.activePlant.maintenance[0].type,
+                      textAlign: TextAlign.left,
+                    )
+                  ],
+                ))
+              ],
+            ),
+          ),
+        ));
   }
 }

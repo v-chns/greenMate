@@ -173,7 +173,7 @@ class PlantInfoContainer extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.asset('assets/images/dummyplant.jpg', height: 120.0, width: 130.0, fit: BoxFit.cover),
+              child: Image.network(result.defaultImage, height: 120.0, width: 130.0, fit: BoxFit.cover),
             ),
             SizedBox(width: 10.0),
             Align(

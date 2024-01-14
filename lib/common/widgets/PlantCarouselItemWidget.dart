@@ -38,37 +38,44 @@ class _PlantCarouselItemWidget extends State<PlantCarouselItemWidget> {
         child: MaterialButton(
           onPressed: onTap,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(8),
                     child: Image.network(
                       activePlant.defaultImage,
-                      width: 140,
-                      height: 100,
+                      width: 160,
+                      height: 110,
                       fit: BoxFit.cover,
                     ),
                   ),
-                  const Positioned(
-                      top: 10.0,
-                      right: 10.0,
-                      child: Icon(Icons.bookmark_outline, color: Colors.white))
+                  // const Positioned(
+                  //     top: 10.0,
+                  //     right: 10.0,
+                  //     child: Icon(Icons.bookmark_outline, color: Colors.white))
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Column(children: [
                   Text(
-                    activePlant.name.length > 15 ? activePlant.name.substring(0, 15 - 3) + '...' : activePlant.name,
+                    activePlant.name,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                        fontSize: 17, fontWeight: FontWeight.bold),
                   ),
-                  Text(activePlant.latinName.length > 15 ? activePlant.latinName.substring(0, 15 - 3) + '...' : activePlant.latinName,
-                  textAlign: TextAlign.center,
+                  Text(
+                      activePlant.latinName,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
-                          fontSize: 16, fontStyle: FontStyle.italic))
+                          fontSize: 15, fontStyle: FontStyle.italic))
                 ]),
               )
             ],
