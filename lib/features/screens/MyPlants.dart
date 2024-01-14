@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greenmate/common/widgets/MyPlantWidget.dart';
-import 'package:greenmate/data/services/PlantSqlListService.dart';
+import 'package:greenmate/data/services/PlantSqlLiteService.dart';
 import 'package:greenmate/features/models/MyPlant.dart';
 import 'package:greenmate/features/models/Plant.dart';
 
@@ -50,7 +50,7 @@ class _MyPlantsState extends State<MyPlants> {
   bool _shouldRefresh = false;
 
   // Function to trigger a refresh
-  void _triggerRefresh() {
+  void _triggerRefresh() async {
     setState(() {
       _shouldRefresh = true;
     });
@@ -114,10 +114,10 @@ class _MyPlantsState extends State<MyPlants> {
                                   padding: const EdgeInsets.all(10),
                                   child: MyPlantWidget(
                                       activePlant: myplants[index],
-                                      callBackFunc: ()async{
-                                        _triggerRefresh();
+                                      callBackFunc: _triggerRefresh,
+                                      endFunc: () async {
                                         await _handleRefresh();
-                                      }
+                                      },
                                       ),
                                 );
                               },

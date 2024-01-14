@@ -69,9 +69,29 @@ class PlantSqlLiteService {
     return output;
   }
 
-   Future<int> deletePlant(int id) async {
+  Future<int> deletePlant(int id) async {
     DatabaseService databaseService = DatabaseService.instance;
     Database db = await databaseService.database;
+
+    final List<Map<String, dynamic>> res =
+        await db.query('my_plants', where: 'userPlantId = ?', whereArgs: [id]);
+
+    
+    File file = File(res[0]['userImage']);
+
+    print(res[0]);
+
+    if (await file.exists()) {
+      try {
+        await file.delete();
+        print('File deleted successfully');
+      } catch (e) {
+        print('Error deleting file: $e');
+      }
+    } else {
+      print('File does not exist');
+    }
+
     return await db.delete('my_plants', where: 'userPlantId = ?', whereArgs: [id]);
   }
 }

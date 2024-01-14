@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:greenmate/data/services/PlantSqlListService.dart';
+import 'package:greenmate/data/services/PlantSqlLiteService.dart';
 import 'package:greenmate/features/models/Plant.dart';
 import 'package:greenmate/features/screens/PlantDetails.dart';
 
@@ -15,11 +15,13 @@ class MyPlantWidget extends StatefulWidget {
 
   final Plant activePlant;
   final void Function() callBackFunc;
+  final void Function() endFunc;
 
   const MyPlantWidget(
       {Key? key,
       required this.activePlant,
-      required this.callBackFunc})
+      required this.callBackFunc,
+      required this.endFunc})
       : super(key: key);
 
   @override
@@ -55,14 +57,14 @@ class _MyPlantWidgetState extends State<MyPlantWidget> {
             child: Expanded(
                 child: Column(
               children: [
-                Text(widget.activePlant.name,
+                Text(widget.activePlant.name.length > 15 ? widget.activePlant.name.substring(0, 15 - 3) + '...' : widget.activePlant.name,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     )),
                 Text(
-                  widget.activePlant.latinName,
+                  widget.activePlant.latinName.length > 15 ? widget.activePlant.latinName.substring(0, 15 - 3) + '...' : widget.activePlant.latinName,
                   textAlign: TextAlign.left,
                   style: const TextStyle(
                       fontSize: 12, fontStyle: FontStyle.italic),
@@ -83,6 +85,7 @@ class _MyPlantWidgetState extends State<MyPlantWidget> {
                   
                   widget.callBackFunc();
                   await plantSqlLiteService.deletePlant(widget.activePlant.userPlantId);
+                  widget.endFunc();
                 }),
           )
         ],

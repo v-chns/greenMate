@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:greenmate/common/widgets/Calendar.dart';
@@ -141,7 +143,7 @@ class _DashboardState extends State<Dashboard> {
                       // height: 200,
                       aspectRatio: 16 / 9,
                       viewportFraction: 0.5,
-                      initialPage: 0,
+                      initialPage: 0 + Random().nextInt(plants.length - 0 + 0),
                       enableInfiniteScroll: true,
                       reverse: false,
                       autoPlay: true,
