@@ -5,7 +5,7 @@ import 'package:greenmate/common/widgets/PlantOverview.dart';
 import 'package:greenmate/common/widgets/PlantTutorial.dart';
 import 'package:greenmate/data/services/GetPlantsList.dart';
 import 'package:greenmate/data/services/NetworkImageDownloader.dart';
-import 'package:greenmate/data/services/PlantSqlListService.dart';
+import 'package:greenmate/data/services/PlantSqlLiteService.dart';
 import 'package:greenmate/features/models/MyPlant.dart';
 import 'package:greenmate/features/models/Plant.dart';
 import 'package:greenmate/features/screens/Dashboard.dart';

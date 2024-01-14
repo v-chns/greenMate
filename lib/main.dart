@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:greenmate/data/cache/CacheManager.dart';
 import 'package:greenmate/data/cache/SharedPreferencesManager.dart';
 import 'package:greenmate/data/services/GetPlantsList.dart';
-import 'package:greenmate/data/services/PlantSqlListService.dart';
+import 'package:greenmate/data/services/PlantSqlLiteService.dart';
 import 'package:greenmate/data/services/db/DatabaseService.dart';
 import 'package:greenmate/features/models/ChatMessage.dart';
 import 'package:greenmate/features/models/MyPlant.dart';
@@ -22,24 +22,18 @@ import 'package:sqflite/sqflite.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // init db sqllite
   DatabaseService databaseService = DatabaseService.instance;
   await databaseService.initDatabase();
-  // final database = openDatabase(join(await getDatabasesPath(), 'greenmate_localdb.db'), 
-  
-  // onCreate: (db, version) {
-  //   // Run the CREATE TABLE statement on the database.
-  //   return db.execute(
-  //     'CREATE TABLE dogs(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)',
-  //   );
-  // },);
 
   cameras = await availableCameras();
 
   // Cache Loading
-  // final SharedPreferences prefs = await SharedPreferences.getInstance();
-  GetPlantsList getPlantsList = GetPlantsList();
   chatHistory = await SharedPreferencesManager.getChatHistory();
-  allPlants = await getPlantsList.getAllPlants();
+
+  // load api
+  // allPlants = await getPlantsList.getAllPlants();
   MyPlant.myPlants = await PlantSqlLiteService().getMyPlants();  
 
   runApp(const MyApp());

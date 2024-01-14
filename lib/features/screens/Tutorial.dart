@@ -99,6 +99,7 @@ class _TutorialState extends State<Tutorial> {
           children: [
             // Camera
             FutureBuilder(future: cameraValue, builder: (context, snapshot){
+
               if(snapshot.connectionState == ConnectionState.done){
 
                 final mediaSize = MediaQuery.of(context).size;

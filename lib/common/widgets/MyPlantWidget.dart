@@ -52,19 +52,26 @@ class _MyPlantWidgetState extends State<MyPlantWidget> {
               fit: BoxFit.cover,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Expanded(
-                child: Column(
+          Expanded(
+              child: Container(
+            margin: EdgeInsets.only(left: 10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.activePlant.name.length > 15 ? widget.activePlant.name.substring(0, 15 - 3) + '...' : widget.activePlant.name,
+                Text(
+                    widget.activePlant.name.length > 20
+                        ? widget.activePlant.name.substring(0, 20 - 3) + '...'
+                        : widget.activePlant.name,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     )),
                 Text(
-                  widget.activePlant.latinName.length > 15 ? widget.activePlant.latinName.substring(0, 15 - 3) + '...' : widget.activePlant.latinName,
+                  widget.activePlant.latinName.length > 20
+                      ? widget.activePlant.latinName.substring(0, 20 - 3) +
+                          '...'
+                      : widget.activePlant.latinName,
                   textAlign: TextAlign.left,
                   style: const TextStyle(
                       fontSize: 12, fontStyle: FontStyle.italic),
@@ -74,17 +81,20 @@ class _MyPlantWidgetState extends State<MyPlantWidget> {
                   textAlign: TextAlign.left,
                 )
               ],
-            )),
-          ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child:
-                IconButton(icon: Icon(Icons.delete_forever), onPressed: () async {
-                  PlantSqlLiteService plantSqlLiteService = PlantSqlLiteService();
-                  
+            ),
+          )),
+          Container(
+            // margin: EdgeInsets.only(left: 15.0),
+            alignment: Alignment.centerRight,
+            child: IconButton(
+                icon: Icon(Icons.delete_forever),
+                onPressed: () async {
+                  PlantSqlLiteService plantSqlLiteService =
+                      PlantSqlLiteService();
+
                   widget.callBackFunc();
-                  await plantSqlLiteService.deletePlant(widget.activePlant.userPlantId);
+                  await plantSqlLiteService
+                      .deletePlant(widget.activePlant.userPlantId);
                   widget.endFunc();
                 }),
           )

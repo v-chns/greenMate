@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:greenmate/common/widgets/Calendar.dart';
 import 'package:greenmate/common/widgets/HomeCalendarWidget.dart';
 import 'package:greenmate/common/widgets/PlantCarouselItemWidget.dart';
+import 'package:greenmate/data/services/GetPlantsList.dart';
 import 'package:greenmate/features/models/Plant.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
-late List<Plant> allPlants;
+List<Plant> allPlants = [];
 
 class Dashboard extends StatefulWidget {
-  final List<Plant> plants = allPlants;
+  // List<Plant> plants = [];
 
   Dashboard({super.key});
 
@@ -24,8 +26,37 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
+    if (allPlants.isEmpty) {
+      _triggerRefresh();
+    } else {
+      setState(() {
+        plants.addAll(allPlants);
+      });
+    }
+  }
+
+  bool _shouldRefresh = false;
+
+  // Function to trigger a refresh
+  void _triggerRefresh() async {
     setState(() {
-      plants.addAll(widget.plants);
+      _shouldRefresh = true;
+    });
+    await _handleRefresh();
+  }
+
+  // Function to handle the refresh
+  Future<void> _handleRefresh() async {
+    List<Plant> temp = await GetPlantsList().getAllPlants();
+    // Your refresh logic here
+    setState(() {
+      plants.addAll(temp);
+      allPlants.addAll(temp);
+    });
+
+    // Reset the variable after refreshing
+    setState(() {
+      _shouldRefresh = false;
     });
   }
 
@@ -133,30 +164,43 @@ class _DashboardState extends State<Dashboard> {
                   const Text("Plant Recommendation For You",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  CarouselSlider.builder(
-                    itemCount: plants.length,
-                    itemBuilder: (BuildContext context, int itemIndex,
-                        int pageViewIndex) {
-                      return PlantCarouselItemWidget(plant: plants[itemIndex]);
-                    },
-                    options: CarouselOptions(
-                      // height: 200,
-                      aspectRatio: 16 / 9,
-                      viewportFraction: 0.5,
-                      initialPage: 0 + Random().nextInt(plants.length - 0 + 0),
-                      enableInfiniteScroll: true,
-                      reverse: false,
-                      autoPlay: true,
-                      autoPlayInterval: const Duration(seconds: 3),
-                      autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                      autoPlayCurve: Curves.fastOutSlowIn,
-                      enlargeCenterPage: true,
-                      enlargeFactor: 0.3,
-                      // onPageChanged: callbackFunction,
-                      scrollDirection: Axis.horizontal,
-
-                    ),
-                  )
+                  const SizedBox(height: 20.0),
+                  RefreshIndicator(
+                      child: _shouldRefresh
+                          ? Container(
+                              child: Center(
+                                child: LoadingIndicator(
+                                    indicatorType: Indicator.lineScaleParty),
+                              ),
+                              height: 100,
+                            )
+                          : CarouselSlider.builder(
+                              itemCount: plants.length,
+                              itemBuilder: (BuildContext context, int itemIndex,
+                                  int pageViewIndex) {
+                                return PlantCarouselItemWidget(
+                                    plant: plants[itemIndex]);
+                              },
+                              options: CarouselOptions(
+                                // height: 200,
+                                aspectRatio: 16 / 9,
+                                viewportFraction: 0.5,
+                                initialPage:
+                                    0 + Random().nextInt(plants.length - 0 + 0),
+                                enableInfiniteScroll: true,
+                                reverse: false,
+                                autoPlay: true,
+                                autoPlayInterval: const Duration(seconds: 3),
+                                autoPlayAnimationDuration:
+                                    const Duration(milliseconds: 800),
+                                autoPlayCurve: Curves.fastOutSlowIn,
+                                enlargeCenterPage: true,
+                                enlargeFactor: 0.3,
+                                // onPageChanged: callbackFunction,
+                                scrollDirection: Axis.horizontal,
+                              ),
+                            ),
+                      onRefresh: _handleRefresh)
                 ],
               ))
             ],
