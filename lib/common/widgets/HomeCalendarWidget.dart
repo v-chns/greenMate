@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greenmate/features/models/Events.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomeCalendarWidget extends StatefulWidget {
@@ -96,21 +97,72 @@ class _HomeCalendarWidget extends State<HomeCalendarWidget> {
         calendarStyle: CalendarStyle(
           // Use `CalendarStyle` to customize the UI
           outsideDaysVisible: false,
+          // weekendTextStyle: TextStyle(color: Colors.red.shade800),
+          selectedTextStyle: TextStyle(color: Colors.white),
+          selectedDecoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.green.shade800,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 2,
+                  blurRadius: 3,
+                  offset: Offset(0, 2),
+                ),
+              ]),
+          todayDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              shape: BoxShape.rectangle,
+              color: Colors.green.shade200,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 2,
+                  blurRadius: 3,
+                  offset: Offset(0, 2),
+                ),
+              ]),
+          defaultDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              shape: BoxShape.rectangle),
+          cellPadding: const EdgeInsets.all(5),
+          holidayDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              shape: BoxShape.rectangle),
+          rowDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              shape: BoxShape.rectangle),
+          weekendDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              shape: BoxShape.rectangle),
+          outsideDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              shape: BoxShape.rectangle),
+              
+        ),
+        headerStyle: HeaderStyle(headerPadding: EdgeInsets.all(10)),
+        daysOfWeekStyle: DaysOfWeekStyle(
+          dowTextFormatter: (date, locale) {
+            return DateFormat.E(locale).format(date).substring(0, 1);
+          },
         ),
         onDaySelected: _onDaySelected,
         onRangeSelected: _onRangeSelected,
-        // onFormatChanged: (format) {
-        //   if (_calendarFormat != format) {
-        //     setState(() {
-        //       _calendarFormat = format;
-        //     });
-        //   }
-        // },
+        onFormatChanged: (format) {
+          setState(() {
+            _calendarFormat = format;
+          });
+        },
+        availableCalendarFormats: const {
+          CalendarFormat.week: "2 Weeks",
+          CalendarFormat.twoWeeks: "Week"
+        },
         onPageChanged: (focusedDay) {
           _focusedDay = focusedDay;
         },
+        formatAnimationDuration: Duration.zero,
       ),
-      const SizedBox(height: 8.0),
       Expanded(
         child: ValueListenableBuilder<List<Event>>(
           valueListenable: _selectedEvents,
@@ -118,20 +170,74 @@ class _HomeCalendarWidget extends State<HomeCalendarWidget> {
             return ListView.builder(
               itemCount: value.length,
               itemBuilder: (context, index) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 12.0,
-                    vertical: 4.0,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  child: ListTile(
-                    onTap: () => print('${value[index]}'),
-                    title: Text('${value[index]}'),
+                return Card(
+                  elevation: 4.0,
+                  color: index % 2 == 0
+                      ? Colors.blue.shade800
+                      : Colors.brown.shade600,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Stack(
+                    children: [
+                      // bg color overlay
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.7),
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 2,
+                                blurRadius: 3,
+                                offset: Offset(0, 2),
+                              ),
+                            ]),
+                      ),
+                      // bgimage
+                      Container(
+                        decoration: BoxDecoration(
+                            image: const DecorationImage(
+                                image:
+                                    AssetImage("assets/images/dummyplant.jpg"),
+                                fit: BoxFit.none,
+                                opacity: 0.3),
+                            // color: Colors.black,
+                            borderRadius: BorderRadius.circular(8)),
+                      ),
+                      //content
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ListTile(
+                              onTap: () => print('${value[index]}'),
+                              title: Text(
+                                '${index % 2 == 0 ? 'Water Plant' : 'Add Vitamin to Soil'}',
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 );
+
+                // Container(
+                //   margin: const EdgeInsets.symmetric(
+                //     horizontal: 12.0,
+                //     vertical: 4.0,
+                //   ),
+                //   decoration: BoxDecoration(
+                //     border: Border.all(),
+                //     borderRadius: BorderRadius.circular(12.0),
+                //   ),
+                //   child: ListTile(
+                //     onTap: () => print('${value[index]}'),
+                //     title: Text('${value[index]}'),
+                //   ),
+                // );
               },
             );
           },

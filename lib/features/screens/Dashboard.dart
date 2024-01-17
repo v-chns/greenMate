@@ -119,7 +119,7 @@ class _DashboardState extends State<Dashboard> {
                               image: const DecorationImage(
                                   image: AssetImage(
                                       "assets/images/dummyplant.jpg"),
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.none,
                                   opacity: 0.3),
                               // color: Colors.black,
                               borderRadius: BorderRadius.circular(8)),
