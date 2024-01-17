@@ -1,5 +1,8 @@
 # GreenMate
-A home gardening app that utilizes artificial intelligence (AI) to raise awareness towards gardening and air pollution. Made by GoodWaffle for GDSC Indonesia's 2024 HackFest.
+A home gardening app that utilizes artificial intelligence (AI) to raise awareness towards gardening and air pollution. Made by Team GoodWaffle using Flutter for GDSC Indonesia's 2024 HackFest.
+
+### How to Run the Application
+Download the APK file from the following folder -> [Download Here](https://drive.google.com/drive/folders/1a-ahbmjmFyxoGeQW7gvzpwa8hD2iSyme?usp=drive_link)
 
 ### Main Features
 
@@ -23,18 +26,6 @@ A home gardening app that utilizes artificial intelligence (AI) to raise awarene
   
   <img src="https://drive.google.com/uc?export=view&id=1VHLZKgv7PNBDfJkP0AKPWdhztGEmAGvu" width="200" />
 
-
----
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Other Reference
+Check the Dedicated Back-End Services for GreenMate! -> [GreenMate Backend Repository](https://github.com/ray3347/api-greenmate)
+Note: The Backend Service is already deployed and hosted so you don't need to run it on your local device, just make sure to have internet while using GreenMate.
