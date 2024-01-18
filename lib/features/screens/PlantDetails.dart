@@ -297,7 +297,7 @@ class _PlantDetailsState extends State<PlantDetails>
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.yellow.shade700,
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 115)),
+                                  const EdgeInsets.symmetric(horizontal: 105)),
                           onPressed: () async {
                             TutorialSqlLiteService tutorialService =
                                 TutorialSqlLiteService();
@@ -305,6 +305,11 @@ class _PlantDetailsState extends State<PlantDetails>
                                 .addTutorialToLocalDB(widget.result, activeTutorial);
                             MyTutorial.myTutorials =
                                 await TutorialSqlLiteService().getMyTutorials();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MyPlants()),
+                            );
+
                           },
                           child: Text(
                             'Save Tutorial',
@@ -346,7 +351,7 @@ class _PlantDetailsState extends State<PlantDetails>
                     textAlign: TextAlign.center),
                 SizedBox(height: 10),
                 Text(
-                  'Your plant has been added to MyGreen.',
+                  'Your plant has been added to MyPlants.',
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium

@@ -19,9 +19,11 @@ class _PlantsGridViewState extends State<PlantsGridView> {
 
   Future<void> _getPlants() async {
     plantsList = await GetPlantsList().getAllPlants();
-    setState(() {
-      _isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -48,10 +50,12 @@ class _PlantsGridViewState extends State<PlantsGridView> {
     GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, // Number of columns
-        crossAxisSpacing: 5.0, // Spacing between columns
-        mainAxisSpacing: 10.0, // Spacing between rows
+        crossAxisSpacing: 3.0, // Spacing between columns
+        mainAxisSpacing: 8.0, // Spacing between rows
       ),
       itemCount: plantsList.length,
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
       itemBuilder: (context, index) {
         return _buildPlantContainer(plantsList[index], plantsList[index].defaultImage, context);
       },
@@ -71,21 +75,21 @@ Widget _buildPlantContainer(Plant plant, String imagePath, BuildContext context)
       );
     },
     child: Container(
-      width: 140,
+      width: 145,
       child: Column(
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.network(
               imagePath,
-              width: 140,
-              height: 100,
+              width: 145,
+              height: 105,
               fit: BoxFit.cover,
             ),
           ),
           SizedBox(height: 1),
           Container(
-            width: 140,
+            width: 145,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +97,7 @@ Widget _buildPlantContainer(Plant plant, String imagePath, BuildContext context)
                 Container(
                   child: Text(
                     plant.name,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
                     textAlign: TextAlign.left,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -102,7 +106,7 @@ Widget _buildPlantContainer(Plant plant, String imagePath, BuildContext context)
                 Container(
                   child: Text(
                     plant.latinName,
-                    style: Theme.of(context).textTheme.labelMedium,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(color: Colors.black.withOpacity(0.5)),
                     textAlign: TextAlign.left,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,

@@ -94,10 +94,8 @@ class _MyPlantWidgetState extends State<MyPlantWidget> {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           textAlign: TextAlign.left,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          )),
+                          style: Theme.of(context).textTheme.bodyLarge
+                          ),
                     ),
                     Container(
                       width: 130,
@@ -106,8 +104,7 @@ class _MyPlantWidgetState extends State<MyPlantWidget> {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         textAlign: TextAlign.left,
-                        style: const TextStyle(
-                            fontSize: 13, fontStyle: FontStyle.italic),
+                        style: Theme.of(context).textTheme.labelSmall
                       ),
                     ),
                     Text(

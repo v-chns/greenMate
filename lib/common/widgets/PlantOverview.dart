@@ -137,7 +137,7 @@ class MaintenanceContainer extends StatelessWidget {
               SizedBox(width: 15.0),
               Text(
                 type == 'SoilType' ? 'Soil Type' : type,
-                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600, color: Colors.black54),
               ),
             ],
           ),
@@ -145,7 +145,7 @@ class MaintenanceContainer extends StatelessWidget {
           SizedBox(height: 10.0),
           Text(
                 description,
-                style: TextStyle(fontSize: 14.0),
+                style: TextStyle(fontSize: 14.0, color: Colors.black54),
           ),
         ],
       ),

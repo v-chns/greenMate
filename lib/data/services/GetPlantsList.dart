@@ -21,14 +21,14 @@ class GetPlantsList {
     print('Response Body: ${response.body}');
 
     if (response.statusCode == 200) {
-      print('error 1');
+      // print('error 1');
       final Map<String, dynamic> responseData = json.decode(response.body);
-      print('error 2');
+      // print('error 2');
       final List<dynamic> data = responseData['data'];
-      print('error 3');
+      // print('error 3');
       print('Decoded Data: $data');
       plantList = data.map((plantData) => Plant.fromJson1(plantData)).toList();
-      print('error 4');
+      // print('error 4');
       return plantList;
     } else {
       throw Exception('Failed to load plants');

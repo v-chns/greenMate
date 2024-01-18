@@ -128,12 +128,9 @@ class _ResultPanelWidgetState extends State<ResultPanelWidget>{
               Padding(
                 padding: EdgeInsets.only(top: 5.0),
                 child:
-                Text("Similar Plants for You", style: Theme.of(context).textTheme.headlineSmall,),
+                Text("Similar Plants for You", style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.black54),),
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * 30,
-                child: PlantsGridView(),
-              ),
+              PlantsGridView(),
             ],
           )
 

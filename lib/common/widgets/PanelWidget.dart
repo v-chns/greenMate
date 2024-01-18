@@ -62,13 +62,10 @@ class _PanelWidgetState extends State<PanelWidget>{
           Padding(
             padding: EdgeInsets.only(top: 20.0),
             child:
-            Text("Plant Picks for You", style: Theme.of(context).textTheme.headlineSmall,),
+            Text("Plant Picks for You", style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.black54),),
           ),
           // List of plants
-          Container(
-            height: MediaQuery.of(context).size.height * 30,
-            child: PlantsGridView(),
-          ),
+          PlantsGridView(),
         ],
       );
   }

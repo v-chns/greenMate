@@ -124,7 +124,7 @@ class _MyPlantsState extends State<MyPlants> {
             title: Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Text("MyPlants",
-                  style: Theme.of(context).textTheme.titleLarge),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.black)),
             ),
           ),
           body: Padding(

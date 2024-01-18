@@ -66,16 +66,15 @@ class _PlantCarouselItemWidget extends State<PlantCarouselItemWidget> {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 17, fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Text(
                       activePlant.latinName,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 15, fontStyle: FontStyle.italic))
+                      style: Theme.of(context).textTheme.labelMedium,
+                  ),
                 ]),
               )
             ],

@@ -168,13 +168,13 @@ class _PlantTutorialState extends State<PlantTutorial> {
                                   widget.result.instructions[index].title,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16.0,
+                                    fontSize: 16.0, color: Colors.black,
                                   ),
                                 ),
                                 SizedBox(height: 5.0),
                                 Text(
                                   widget.result.instructions[index].content,
-                                  style: TextStyle(fontSize: 14.0),
+                                  style: TextStyle(fontSize: 14.0, color: Colors.black),
                                 ),
                               ],
                             ),
