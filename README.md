@@ -2,7 +2,7 @@
 A home gardening app that utilizes artificial intelligence (AI) to raise awareness towards gardening and air pollution. Made by Team GoodWaffle using Flutter for GDSC Indonesia's 2024 HackFest.
 
 ### How to Run the Application
-Download the APK file from the following folder -> [Download Here](https://drive.google.com/drive/folders/1a-ahbmjmFyxoGeQW7gvzpwa8hD2iSyme?usp=drive_link)
+Download the APK file from the following folder -> [Download Here](https://drive.google.com/drive/folders/1CFEY33Vlgyh8dLz-QZxjmVQbL2ga9UbS?usp=sharing)
 
 ### Main Features
 
