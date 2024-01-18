@@ -6,7 +6,7 @@
     <application
         android:label="GreenMate"
         android:name="${applicationName}"
-        android:icon="@mipmap/greenmate">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"
