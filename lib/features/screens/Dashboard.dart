@@ -170,7 +170,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                   const SizedBox(height: 20.0),
-                  const Text("Todo-List",
+                  const Text("To-do List",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   Calendar(),

@@ -13,40 +13,31 @@ class _PlantCareState extends State<PlantAbout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Card(
-            elevation: 4.0,
-            color: Colors.green.shade800.withOpacity(0.5),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+      body: Stack(
+        children: [
+          // Background image
+          Positioned.fill(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.asset(
+                "assets/images/dummyplant.jpg",
+                fit: BoxFit.cover,
+                color: Colors.black.withOpacity(0.8),
+                colorBlendMode: BlendMode.darken,
+              ),
             ),
-            child: Stack(
-              children: [
-                // bg color overlay
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.7),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
+          ),
+          // Content
+          SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(0),
+              child: Card(
+                elevation: 4.0,
+                color: Colors.green.shade900.withOpacity(0.3),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                // bgimage
-                ClipRRect(
-                  clipBehavior: Clip.hardEdge,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage("assets/images/dummyplant.jpg"),
-                        fit: BoxFit.none,
-                        opacity: 0.5,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-                // content
-                Container(
+                child: Container(
                   padding: const EdgeInsets.all(30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,10 +54,10 @@ class _PlantCareState extends State<PlantAbout> {
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

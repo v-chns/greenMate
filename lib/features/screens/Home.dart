@@ -8,7 +8,9 @@ import 'package:greenmate/features/screens/Tutorial.dart';
 import 'package:get/get.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final int currentTab;
+
+  const Home({Key? key, this.currentTab = 0}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -17,6 +19,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   int currentTab = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    currentTab = widget.currentTab;
+  }
+
   final List<Widget> screens = [
     Dashboard(),
     MyPlants(),

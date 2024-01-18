@@ -28,14 +28,15 @@ class _PlantDetailsState extends State<MyPlantsDetails> {
   final PageStorageBucket bucket = PageStorageBucket();
   late final String imgUrl;
   XFile? localImage;
+  late String imagePath;
 
   @override
   void initState() {
     super.initState();
-    currentScreen = PlantOverview(result: widget.result);
+    currentScreen = PlantAbout(result: widget.result);
     imgUrl = widget.result.defaultImage;
-    if (widget.image != null) {
-      localImage = widget.image!;
+    if (widget.result.userImage != "") {
+      imagePath = widget.result.userImage;
     }
 
     // print(widget.result.maintenance);
@@ -50,7 +51,7 @@ class _PlantDetailsState extends State<MyPlantsDetails> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.4,
-                decoration: localImage == null
+                decoration: widget.result.userImage == ""
                     ? BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(imgUrl),
@@ -59,7 +60,7 @@ class _PlantDetailsState extends State<MyPlantsDetails> {
                 )
                     : BoxDecoration(
                   image: DecorationImage(
-                    image: FileImage(File(localImage!.path)),
+                    image: FileImage(File(imagePath)),
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -48,6 +48,7 @@ class _MyPlantsState extends State<MyPlants> {
     // print("babi init");
     super.initState();
     setState(() {
+      _handleRefreshTutorial();
       myplants = widget.plants;
       mytutorials = widget.tutorials;
     });

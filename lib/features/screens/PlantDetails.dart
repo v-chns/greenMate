@@ -11,6 +11,7 @@ import 'package:greenmate/features/models/MyPlant.dart';
 import 'package:greenmate/features/models/MyTutorial.dart';
 import 'package:greenmate/features/models/Plant.dart';
 import 'package:greenmate/features/screens/Dashboard.dart';
+import 'package:greenmate/features/screens/Home.dart';
 import 'package:greenmate/features/screens/MyPlants.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -363,7 +364,7 @@ class _PlantDetailsState extends State<PlantDetails>
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MyPlants()),
+                      MaterialPageRoute(builder: (context) => Home(currentTab: 1,)),
                     );
                   },
                   child: Text('OK'),
